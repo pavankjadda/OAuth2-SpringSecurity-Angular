@@ -36,22 +36,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
 
-    @Autowired
-    private FindByIndexNameSessionRepository<? extends Session> sessionRepository;
+    private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
 
     @Autowired
-    public SecurityConfig(MyUserDetailsService userDetailsService)
+    public SecurityConfig(MyUserDetailsService userDetailsService, FindByIndexNameSessionRepository<? extends Session> sessionRepository)
     {
         this.userDetailsService = userDetailsService;
         //this.sessionRepository = sessionRepository;
+        this.sessionRepository = sessionRepository;
     }
 
-   /* void consume()
-    {
-        Session session = (Session) this.sessionRepository.createSession();
-        session.setAttribute("test", UUID.randomUUID().toString());
-        this.sessionRepository.save(session);
-    }*/
 
     @Override
     public void configure(AuthenticationManagerBuilder auth)
@@ -108,8 +102,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http.cors();
 
         http.sessionManagement()
-                //.invalidSessionUrl("/login.html")
-                //.invalidSessionStrategy((request, response) -> request.logout())
                 .sessionFixation().migrateSession()
                 .maximumSessions(1)
                 .maxSessionsPreventsLogin(false)
@@ -130,27 +122,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return rememberMeServices;
     }
 
-    /*
-    @Bean
-    public WebMvcConfigurer corsConfigurer()
-    {
-        return new WebMvcConfigurer()
-        {
-            @Override
-            public void addCorsMappings(CorsRegistry registry)
-            {
-                registry.addMapping("**").allowedOrigins("http://localhost:4200/*");
-            }
-        };
-        return new WebMvcConfigurerAdapter()
-        {
-            @Override
-            public void addCorsMappings(CorsRegistry registry)
-            {
-                registry.addMapping("**").allowedOrigins("http://localhost:4200");
-            }
-        };
-    }*/
     @Bean
     CorsConfigurationSource corsConfigurationSource()
     {
