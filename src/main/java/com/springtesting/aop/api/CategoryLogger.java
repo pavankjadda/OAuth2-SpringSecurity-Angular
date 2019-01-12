@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class CategoryLogger
 {
-    private Logger logger=LoggerFactory.getLogger(CategoryLogger.class);
+    private Logger logger = LoggerFactory.getLogger(CategoryLogger.class);
 
-    @Pointcut("within(com.springtesting.web.api.CategoryController)")
+    @Pointcut("within(com.springtesting.web.CategoryController)")
     public void categoryControllerPointcut()
     {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.
@@ -24,16 +24,16 @@ public class CategoryLogger
     @Around("categoryControllerPointcut()")
     public Object logCategoryRequests(ProceedingJoinPoint proceedingJoinPoint)
     {
-        Object result=null;
+        Object result = null;
         try
         {
-            result=proceedingJoinPoint.proceed();
+            result = proceedingJoinPoint.proceed();
         }
         catch (Throwable throwable)
         {
             throwable.printStackTrace();
         }
-        logger.info("Log {}.{}() with result = {}",proceedingJoinPoint.getSignature().getDeclaringTypeName(),
+        logger.info("Log {}.{}() with result = {}", proceedingJoinPoint.getSignature().getDeclaringTypeName(),
                 proceedingJoinPoint.getSignature().getName(), result);
         return result;
     }

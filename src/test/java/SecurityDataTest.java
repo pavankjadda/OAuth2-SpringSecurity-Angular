@@ -1,5 +1,3 @@
-package com.springtesting.mockito;
-
 import com.springtesting.model.Role;
 import com.springtesting.model.User;
 import com.springtesting.repo.PrivilegeRepository;
@@ -34,11 +32,10 @@ public class SecurityDataTest
     private PrivilegeRepository privilegeRepository;
 
 
-
     @Test
     public void getUser()
     {
-        User user=userRepository.findByUsername("admin");
+        User user = userRepository.findByUsername("admin");
         System.out.println(user.toString());
     }
 
@@ -46,8 +43,8 @@ public class SecurityDataTest
     @Test
     public void getUsers()
     {
-        List<User> userList=userRepository.findAll();
-        for(User user:userList)
+        List<User> userList = userRepository.findAll();
+        for (User user : userList)
         {
             System.out.println(user.toString());
         }
@@ -56,11 +53,11 @@ public class SecurityDataTest
     @Test
     public void getUserRoles()
     {
-        User user=userRepository.findByUsername("admin");
+        User user = userRepository.findByUsername("admin");
         System.out.println(user.toString());
 
-        Collection<Role> roleCollection= user.getRoles();
-        for (Role role:roleCollection)
+        Collection<Role> roleCollection = user.getRoles();
+        for (Role role : roleCollection)
             System.out.println(role.toString());
     }
 }

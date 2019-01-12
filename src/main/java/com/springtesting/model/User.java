@@ -11,7 +11,7 @@ import java.util.Collection;
 @Entity
 @Data
 @Table(name = "user")
-public class User extends AbstractAuditingEntity implements Serializable
+public class User implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
@@ -45,8 +45,8 @@ public class User extends AbstractAuditingEntity implements Serializable
     @ManyToMany
     @JoinTable(
             name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id",referencedColumnName = "id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id",referencedColumnName = "id")
+            joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
     @JsonManagedReference
     private Collection<Role> roles;
