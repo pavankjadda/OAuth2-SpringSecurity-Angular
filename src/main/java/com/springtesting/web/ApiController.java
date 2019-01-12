@@ -1,13 +1,7 @@
 package com.springtesting.web;
 
 import com.springtesting.model.Category;
-import com.springtesting.model.OrderDetail;
-import com.springtesting.model.OrderDetailProduct;
-import com.springtesting.model.Product;
 import com.springtesting.repo.CategoryRepository;
-import com.springtesting.repo.OrderDetailProductRepository;
-import com.springtesting.repo.OrderDetailRepository;
-import com.springtesting.repo.ProductRepository;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

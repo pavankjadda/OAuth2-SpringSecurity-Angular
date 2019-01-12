@@ -3,7 +3,6 @@ package com.springtesting.mockito;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.springtesting.model.Currency;
 import com.springtesting.model.*;
 import com.springtesting.repo.*;
 import org.junit.Before;

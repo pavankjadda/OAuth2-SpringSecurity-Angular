@@ -38,11 +38,6 @@ public class UserProfile
     private String email;
 
 
-    @OneToMany(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id")
-    private List<Address> addresses=new ArrayList<>();
-
-
     @OneToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @JsonBackReference

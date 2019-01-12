@@ -9,7 +9,7 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Data
 @Table(name = "category")
-public class Category extends AbstractAuditingEntity
+public class Category
 {
 
     @Id

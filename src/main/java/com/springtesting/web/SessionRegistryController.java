@@ -1,4 +1,4 @@
-package com.springtesting.web.api;
+package com.springtesting.web;
 
 import com.springtesting.dto.ActiveSessionDto;
 import com.springtesting.security.MyUserDetails;

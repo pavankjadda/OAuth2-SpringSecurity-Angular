@@ -14,7 +14,7 @@ public class CategoryLogger
 {
     private Logger logger=LoggerFactory.getLogger(CategoryLogger.class);
 
-    @Pointcut("within(com.springtesting.web.api.CategoryController)")
+    @Pointcut("within(com.springtesting.web.CategoryController)")
     public void categoryControllerPointcut()
     {
         // Method is empty as this is just a Pointcut, the implementations are in the advices.

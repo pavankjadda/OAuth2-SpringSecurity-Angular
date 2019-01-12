@@ -1,4 +1,4 @@
-package com.springtesting.web.api;
+package com.springtesting.web;
 
 import com.springtesting.model.Category;
 import com.springtesting.repo.CategoryRepository;

@@ -11,7 +11,7 @@ import java.util.Collection;
 @Entity
 @Data
 @Table(name = "user")
-public class User extends AbstractAuditingEntity implements Serializable
+public class User implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
