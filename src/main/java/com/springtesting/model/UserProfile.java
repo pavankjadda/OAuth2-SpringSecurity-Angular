@@ -6,8 +6,6 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Data
@@ -38,7 +36,7 @@ public class UserProfile
     private String email;
 
 
-    @OneToOne(fetch = FetchType.EAGER, cascade =  CascadeType.ALL)
+    @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
     @JsonBackReference
     private User user;

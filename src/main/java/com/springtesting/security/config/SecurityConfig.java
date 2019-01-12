@@ -15,8 +15,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
@@ -64,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public CustomDaoAuthenticationProvider getDaoAuthenticationProvider()
     {
-        CustomDaoAuthenticationProvider daoAuthenticationProvider=new CustomDaoAuthenticationProvider();
+        CustomDaoAuthenticationProvider daoAuthenticationProvider = new CustomDaoAuthenticationProvider();
         daoAuthenticationProvider.setUserDetailsService(userDetailsService);
         daoAuthenticationProvider.setPasswordEncoder(getBCryptPasswordEncoder());
         return daoAuthenticationProvider;
@@ -80,45 +78,45 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-            http.authorizeRequests()
-                    .antMatchers("/anonymous*").anonymous()
-                    //.antMatchers("/users/**").permitAll()
-                    .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
-                    .antMatchers("/admin**").hasAuthority(AuthorityConstants.Admin)
-                    .antMatchers("/profile/**").hasAuthority(AuthorityConstants.User)
-                    .antMatchers("/api/**").hasAnyAuthority(AuthorityConstants.ApiUser,AuthorityConstants.Admin)
-                    .antMatchers("/dba/**").hasAuthority(AuthorityConstants.Dba)
-                    .anyRequest().authenticated()
-            .and()
-                    .httpBasic()
-            .and()
-                    .formLogin()
-                        .loginPage("/login")
-                        .loginProcessingUrl("/login")
-                        .successHandler(new CustomAuthenticationSuccessHandler())
-                        .failureHandler(new CustomAuthenticationFailureHandler())
-                        .permitAll()
-            .and()
-                    .logout()
-                        .deleteCookies("JSESSIONID")
-                        .logoutSuccessHandler(new CustomLogoutSuccessHandler())
-                        .permitAll()
-            .and()
-                    .rememberMe().rememberMeServices(springSessionRememberMeServices());
+        http.authorizeRequests()
+                .antMatchers("/anonymous*").anonymous()
+                //.antMatchers("/users/**").permitAll()
+                .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
+                .antMatchers("/admin**").hasAuthority(AuthorityConstants.Admin)
+                .antMatchers("/profile/**").hasAuthority(AuthorityConstants.User)
+                .antMatchers("/api/**").hasAnyAuthority(AuthorityConstants.ApiUser, AuthorityConstants.Admin)
+                .antMatchers("/dba/**").hasAuthority(AuthorityConstants.Dba)
+                .anyRequest().authenticated()
+                .and()
+                .httpBasic()
+                .and()
+                .formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .successHandler(new CustomAuthenticationSuccessHandler())
+                .failureHandler(new CustomAuthenticationFailureHandler())
+                .permitAll()
+                .and()
+                .logout()
+                .deleteCookies("JSESSIONID")
+                .logoutSuccessHandler(new CustomLogoutSuccessHandler())
+                .permitAll()
+                .and()
+                .rememberMe().rememberMeServices(springSessionRememberMeServices());
 
 
-                http.cors();
+        http.cors();
 
         http.sessionManagement()
-                        //.invalidSessionUrl("/login.html")
-                        //.invalidSessionStrategy((request, response) -> request.logout())
-                        .sessionFixation().migrateSession()
-                        .maximumSessions(1)
-                        .maxSessionsPreventsLogin(false)
-                        .sessionRegistry(sessionRegistry());
+                //.invalidSessionUrl("/login.html")
+                //.invalidSessionStrategy((request, response) -> request.logout())
+                .sessionFixation().migrateSession()
+                .maximumSessions(1)
+                .maxSessionsPreventsLogin(false)
+                .sessionRegistry(sessionRegistry());
 
         http.csrf()
-            .disable();
+                .disable();
 
     }
 
@@ -131,6 +129,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         rememberMeServices.setValiditySeconds(ApplicationConstants.rememberMeTimeOut);
         return rememberMeServices;
     }
+
     /*
     @Bean
     public WebMvcConfigurer corsConfigurer()
@@ -152,7 +151,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
             }
         };
     }*/
-   @Bean
+    @Bean
     CorsConfigurationSource corsConfigurationSource()
     {
         CorsConfiguration configuration = new CorsConfiguration();
@@ -182,8 +181,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     public void configure(WebSecurity web) throws Exception
     {
         web
-            .ignoring()
-            .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+                .ignoring()
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
     }
 
     @Bean
