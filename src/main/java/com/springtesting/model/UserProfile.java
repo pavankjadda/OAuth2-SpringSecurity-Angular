@@ -13,7 +13,9 @@ import javax.validation.constraints.NotNull;
 public class UserProfile
 {
 
+
     @Id
+    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
