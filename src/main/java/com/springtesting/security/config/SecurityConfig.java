@@ -30,7 +30,6 @@ import java.util.Arrays;
 
 @Configuration
 @EnableWebSecurity
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
@@ -140,7 +139,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
 
-    /*@Bean
+ /*   @Bean
     SpringSessionBackedSessionRegistry sessionRegistry()
     {
         return new SpringSessionBackedSessionRegistry<>(this.sessionRepository);
