@@ -1,29 +1,32 @@
 package com.springtesting.web;
 
-import com.springtesting.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/session-registry")
 public class SessionRegistryImplController
 {
-    private final SessionRegistry sessionRegistry;
+    private FindByIndexNameSessionRepository findByIndexNameSessionRepository;
 
     @Autowired
-    public SessionRegistryImplController(SessionRegistry sessionRegistry)
+    public SessionRegistryImplController(FindByIndexNameSessionRepository findByIndexNameSessionRepository)
     {
-        this.sessionRegistry = sessionRegistry;
+        this.findByIndexNameSessionRepository = findByIndexNameSessionRepository;
     }
 
+    @GetMapping(value = {"/users"})
+    public Map getAllUsers()
+    {
+        return findByIndexNameSessionRepository.findByPrincipalName("admin");
+    }
+
+    /*
     @GetMapping(value = {"/users"})
     public List<String> getAllUsers()
     {
@@ -53,5 +56,5 @@ public class SessionRegistryImplController
                 return sessionRegistry.getAllSessions(myUserDetails, false);
         }
         return null;
-    }
+    }*/
 }

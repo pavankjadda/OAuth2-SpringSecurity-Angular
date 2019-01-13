@@ -1,6 +1,5 @@
 package com.springtesting.model;
 
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -48,7 +47,6 @@ public class User implements Serializable
             joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id")
     )
-    @JsonManagedReference
     private Collection<Role> roles;
 
     public User()
