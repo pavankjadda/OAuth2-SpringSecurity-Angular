@@ -134,7 +134,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     SpringSessionBackedSessionRegistry sessionRegistry()
     {
-        //return new SpringSessionBackedSessionRegistry<>(this.sessionRepository);
         return (SpringSessionBackedSessionRegistry) new ParameterizedConsumer<>().getSessionRepository();
     }
 
