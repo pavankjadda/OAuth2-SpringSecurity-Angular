@@ -52,7 +52,6 @@ public class SessionRegistryImplController
             if (myUserDetails.getUsername().equals(username))
                 return sessionRegistry.getAllSessions(myUserDetails, false);
         }
-
         return null;
     }
 }
