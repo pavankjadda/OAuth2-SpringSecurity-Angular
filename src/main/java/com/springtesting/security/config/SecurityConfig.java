@@ -2,7 +2,6 @@ package com.springtesting.security.config;
 
 
 import com.springtesting.security.MyUserDetailsService;
-import com.springtesting.security.ParameterizedConsumer;
 import com.springtesting.security.handlers.CustomAuthenticationFailureHandler;
 import com.springtesting.security.handlers.CustomAuthenticationSuccessHandler;
 import com.springtesting.security.handlers.CustomLogoutSuccessHandler;
@@ -16,10 +15,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
-import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -132,10 +132,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
 
     @Bean
-    SpringSessionBackedSessionRegistry sessionRegistry()
+    SessionRegistry sessionRegistry()
     {
-        //return new SpringSessionBackedSessionRegistry<>(this.sessionRepository);
-        return (SpringSessionBackedSessionRegistry) new ParameterizedConsumer<>().getSessionRepository();
+        return new SessionRegistryImpl();
     }
 
     @Override
