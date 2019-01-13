@@ -15,12 +15,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
-import org.springframework.session.FindByIndexNameSessionRepository;
-import org.springframework.session.Session;
-import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -36,14 +35,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
 
-    private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
+    //private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
 
     @Autowired
-    public SecurityConfig(MyUserDetailsService userDetailsService, FindByIndexNameSessionRepository<? extends Session> sessionRepository)
+    public SecurityConfig(MyUserDetailsService userDetailsService)
     {
         this.userDetailsService = userDetailsService;
         //this.sessionRepository = sessionRepository;
-        this.sessionRepository = sessionRepository;
     }
 
 
@@ -135,18 +133,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return source;
     }
 
-  /*  @Bean
+    @Bean
     public SessionRegistry sessionRegistry()
     {
         return new SessionRegistryImpl();
-    }*/
+    }
 
 
-    @Bean
+    /*@Bean
     SpringSessionBackedSessionRegistry sessionRegistry()
     {
         return new SpringSessionBackedSessionRegistry<>(this.sessionRepository);
-    }
+    }*/
 
     @Override
     public void configure(WebSecurity web) throws Exception
