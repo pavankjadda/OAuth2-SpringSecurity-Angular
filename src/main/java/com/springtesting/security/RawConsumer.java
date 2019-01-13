@@ -1,31 +1,25 @@
-package com.springtesting.security.config;
+package com.springtesting.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.session.FindByIndexNameSessionRepository;
 import org.springframework.session.Session;
+import org.springframework.stereotype.Component;
 
 import java.util.UUID;
 
-public class ParameterizedConsumer<S extends Session>
+@Component
+public class RawConsumer
 {
-
     @Autowired
-    private FindByIndexNameSessionRepository<S> sessionRepository;
-
-    public FindByIndexNameSessionRepository getSessionRepository()
-    {
-        return this.sessionRepository;
-    }
-
+    private FindByIndexNameSessionRepository sessionRepository;
 
     void consume()
     {
-        S session = this.sessionRepository
+        Session session = (Session) this.sessionRepository
                 .findByIndexNameAndIndexValue(FindByIndexNameSessionRepository.PRINCIPAL_NAME_INDEX_NAME, "principal")
                 .values().iterator().next();
         session.setAttribute("test", UUID.randomUUID().toString());
         this.sessionRepository.save(session);
     }
-
 
 }

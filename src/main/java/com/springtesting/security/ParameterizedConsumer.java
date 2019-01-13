@@ -1,4 +1,4 @@
-package com.springtesting.security.config;
+package com.springtesting.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.session.FindByIndexNameSessionRepository;
@@ -6,17 +6,11 @@ import org.springframework.session.Session;
 
 import java.util.UUID;
 
-public class ParameterizedConsumer<S extends Session>
+class ParameterizedConsumer<S extends Session>
 {
 
     @Autowired
     private FindByIndexNameSessionRepository<S> sessionRepository;
-
-    public FindByIndexNameSessionRepository getSessionRepository()
-    {
-        return this.sessionRepository;
-    }
-
 
     void consume()
     {
@@ -26,6 +20,5 @@ public class ParameterizedConsumer<S extends Session>
         session.setAttribute("test", UUID.randomUUID().toString());
         this.sessionRepository.save(session);
     }
-
 
 }

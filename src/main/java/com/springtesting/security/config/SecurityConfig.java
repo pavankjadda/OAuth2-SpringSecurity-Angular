@@ -15,11 +15,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.session.security.SpringSessionBackedSessionRegistry;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -34,13 +33,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
 
-    //private final FindByIndexNameSessionRepository<? extends Session> sessionRepository;
 
     @Autowired
     public SecurityConfig(MyUserDetailsService userDetailsService)
     {
         this.userDetailsService = userDetailsService;
-        //this.sessionRepository = sessionRepository;
     }
 
 
@@ -132,18 +129,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return source;
     }
 
+
     @Bean
-    public SessionRegistry sessionRegistry()
-    {
-        return new SessionRegistryImpl();
-    }
-
-
- /*   @Bean
     SpringSessionBackedSessionRegistry sessionRegistry()
     {
-        return new SpringSessionBackedSessionRegistry<>(this.sessionRepository);
-    }*/
+        //return new SpringSessionBackedSessionRegistry<>(this.sessionRepository);
+        return (SpringSessionBackedSessionRegistry) new ParameterizedConsumer<>().getSessionRepository();
+    }
 
     @Override
     public void configure(WebSecurity web) throws Exception
