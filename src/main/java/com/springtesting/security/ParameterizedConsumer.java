@@ -6,11 +6,17 @@ import org.springframework.session.Session;
 
 import java.util.UUID;
 
-class ParameterizedConsumer<S extends Session>
+public class ParameterizedConsumer<S extends Session>
 {
 
     @Autowired
     private FindByIndexNameSessionRepository<S> sessionRepository;
+
+    public FindByIndexNameSessionRepository getSessionRepository()
+    {
+        return this.sessionRepository;
+    }
+
 
     void consume()
     {
@@ -20,5 +26,6 @@ class ParameterizedConsumer<S extends Session>
         session.setAttribute("test", UUID.randomUUID().toString());
         this.sessionRepository.save(session);
     }
+
 
 }

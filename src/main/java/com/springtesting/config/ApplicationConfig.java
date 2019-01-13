@@ -1,6 +1,6 @@
 package com.springtesting.config;
 
-import com.springtesting.security.config.ParameterizedConsumer;
+import com.springtesting.security.ParameterizedConsumer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

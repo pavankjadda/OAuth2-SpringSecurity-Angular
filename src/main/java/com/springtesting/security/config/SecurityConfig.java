@@ -2,6 +2,7 @@ package com.springtesting.security.config;
 
 
 import com.springtesting.security.MyUserDetailsService;
+import com.springtesting.security.ParameterizedConsumer;
 import com.springtesting.security.handlers.CustomAuthenticationFailureHandler;
 import com.springtesting.security.handlers.CustomAuthenticationSuccessHandler;
 import com.springtesting.security.handlers.CustomLogoutSuccessHandler;
