@@ -1,7 +1,6 @@
 package com.springtesting.web;
 
 import com.springtesting.security.MyUserDetails;
-import com.springtesting.security.MyUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
@@ -18,13 +17,11 @@ import java.util.stream.Collectors;
 public class SessionRegistryImplController
 {
     private final SessionRegistry sessionRegistry;
-    private final MyUserDetailsService myUserDetailsService;
 
     @Autowired
-    public SessionRegistryImplController(SessionRegistry sessionRegistry, MyUserDetailsService myUserDetailsService)
+    public SessionRegistryImplController(SessionRegistry sessionRegistry)
     {
         this.sessionRegistry = sessionRegistry;
-        this.myUserDetailsService = myUserDetailsService;
     }
 
     @GetMapping(value = {"/users"})
@@ -49,11 +46,12 @@ public class SessionRegistryImplController
     @GetMapping(value = {"/active-users/{username}"})
     public List<SessionInformation> getUserSessions(@PathVariable String username)
     {
-        //return sessionRegistry.getAllSessions(myUserDetailsService.loadUserByUsername(username),false);
-
-        MyUserDetails myUserDetails = (MyUserDetails) sessionRegistry.getAllPrincipals().get(0);
-        if (myUserDetails.getUsername().equals(username))
-            return sessionRegistry.getAllSessions(myUserDetails, false);
+        if(sessionRegistry.getAllPrincipals().size()>0)
+        {
+            MyUserDetails myUserDetails = (MyUserDetails) sessionRegistry.getAllPrincipals().get(0);
+            if (myUserDetails.getUsername().equals(username))
+                return sessionRegistry.getAllSessions(myUserDetails, false);
+        }
         return null;
     }
 }
