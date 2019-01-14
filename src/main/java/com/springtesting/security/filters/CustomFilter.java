@@ -6,17 +6,13 @@ import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.web.session.SessionManagementFilter;
-import org.springframework.web.filter.GenericFilterBean;
 
-import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import javax.servlet.*;
 import java.io.IOException;
 
 @Configuration
 @Order(SecurityProperties.BASIC_AUTH_ORDER - 10)
-public class CustomFilter extends GenericFilterBean
+public class CustomFilter implements Filter
 {
     private Logger logger= LoggerFactory.getLogger(CustomFilter.class);
 
