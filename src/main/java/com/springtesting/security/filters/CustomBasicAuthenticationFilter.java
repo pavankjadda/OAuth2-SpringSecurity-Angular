@@ -19,7 +19,6 @@ public class CustomBasicAuthenticationFilter extends BasicAuthenticationFilter
                                               HttpServletResponse response, Authentication authResult) throws IOException
     {
         request.getSession(false);
-        System.out.println("Session Id: "+request.getSession(false).getId());
+        System.out.println("Session Id: "+request.getSession(false));
     }
-
 }

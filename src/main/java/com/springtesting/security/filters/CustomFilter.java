@@ -26,6 +26,11 @@ public class CustomFilter extends GenericFilterBean
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
     {
         logger.info("Inside CustomFilter doFilter() method");
+        logger.info(request.getLocalName());
+        logger.info(request.getLocalAddr());
+        logger.info(String.valueOf(request.getServerPort()));
+        logger.info(request.getServerName());
+
 
         chain.doFilter(request,response);
     }
