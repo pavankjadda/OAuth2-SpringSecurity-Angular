@@ -1,33 +1,77 @@
 package com.springtesting.security.filters;
 
+import com.springtesting.model.SessionHistory;
+import com.springtesting.repo.SessionHistoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
-import org.springframework.security.web.session.SessionManagementFilter;
 
 import javax.servlet.*;
+import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 @Configuration
-@Order(SecurityProperties.BASIC_AUTH_ORDER - 10)
+@Order(SecurityProperties.DEFAULT_FILTER_ORDER)
 public class CustomFilter implements Filter
 {
     private Logger logger= LoggerFactory.getLogger(CustomFilter.class);
 
-    SessionManagementFilter sessionManagementFilter;
+    @Autowired
+    private SessionHistoryRepository sessionHistoryRepository;
 
+   /* @Autowired
+    public CustomFilter(SessionHistoryRepository sessionHistoryRepository)
+    {
+        this.sessionHistoryRepository = sessionHistoryRepository;
+    }*/
+    public CustomFilter()
+    {
+
+    }
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException
     {
         logger.info("Inside CustomFilter doFilter() method");
-        logger.info(request.getLocalName());
-        logger.info(request.getLocalAddr());
-        logger.info(String.valueOf(request.getServerPort()));
-        logger.info(request.getServerName());
+        HttpServletRequest httpServletRequest= (HttpServletRequest) request;
+        try
+        {
+            if(httpServletRequest.getSession(false)!=null)
+            {
+                logger.info("doFilter: getSession()=> "+ httpServletRequest.getSession(false).getId());
+                SessionHistory sessionHistory=new SessionHistory();
+                sessionHistory.setSessionId(httpServletRequest.getSession(false).getId());
+                sessionHistory.setLoggedDataTime(LocalDateTime.now());
+                sessionHistory.setCreationTime(convertLongDateTime(httpServletRequest.getSession(false).getCreationTime()));
+                sessionHistory.setLastAccessTime(convertLongDateTime(httpServletRequest.getSession(false).getLastAccessedTime()));
+                sessionHistory.setMaxInactiveInterval(httpServletRequest.getSession(false).getMaxInactiveInterval());
 
+                if(httpServletRequest.getUserPrincipal()!=null)
+                    sessionHistory.setUsername(httpServletRequest.getUserPrincipal().getName());
+                else
+                    sessionHistory.setUsername("");
+                try
+                {
+                    sessionHistoryRepository.saveAndFlush(sessionHistory);
+                }
+                catch (Exception e)
+                {
+                    logger.info("Exception occurred");
+                }
+            }
+            else
+                logger.info("doFilter: getSession()=> "+null);
 
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
         chain.doFilter(request,response);
     }
 
@@ -36,5 +80,11 @@ public class CustomFilter implements Filter
     {
         logger.info("Inside CustomFilter destroy() method");
 
+    }
+
+
+    public LocalDateTime convertLongDateTime(long longValue)
+    {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(longValue), ZoneId.systemDefault());
     }
 }
