@@ -2,6 +2,7 @@ package com.springtesting.security.config;
 
 
 import com.springtesting.security.MyUserDetailsService;
+import com.springtesting.security.filters.CustomBasicAuthenticationFilter;
 import com.springtesting.security.filters.CustomFilter;
 import com.springtesting.security.handlers.CustomAuthenticationFailureHandler;
 import com.springtesting.security.handlers.CustomAuthenticationSuccessHandler;
@@ -69,7 +70,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     protected void configure(HttpSecurity http) throws Exception
     {
         http.addFilterBefore(new CustomFilter(), BasicAuthenticationFilter.class)
-
+                .addFilter(new CustomBasicAuthenticationFilter(authenticationManagerBean()))
                 .authorizeRequests()
                     .antMatchers("/anonymous*").anonymous()
                     //.antMatchers("/users/**").permitAll()
