@@ -2,6 +2,7 @@ package com.springtesting.security.config;
 
 
 import com.springtesting.security.MyUserDetailsService;
+import com.springtesting.security.filters.CustomFilter;
 import com.springtesting.security.handlers.CustomAuthenticationFailureHandler;
 import com.springtesting.security.handlers.CustomAuthenticationSuccessHandler;
 import com.springtesting.security.handlers.CustomLogoutSuccessHandler;
@@ -19,7 +20,7 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -67,31 +68,33 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        http.authorizeRequests()
-                .antMatchers("/anonymous*").anonymous()
-                //.antMatchers("/users/**").permitAll()
-                .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
-                .antMatchers("/admin**").hasAuthority(AuthorityConstants.Admin)
-                .antMatchers("/profile/**").hasAuthority(AuthorityConstants.User)
-                .antMatchers("/api/**").hasAnyAuthority(AuthorityConstants.ApiUser, AuthorityConstants.Admin)
-                .antMatchers("/dba/**").hasAuthority(AuthorityConstants.Dba)
-                .anyRequest().authenticated()
+        http.addFilterBefore(new CustomFilter(), BasicAuthenticationFilter.class)
+
+                .authorizeRequests()
+                    .antMatchers("/anonymous*").anonymous()
+                    //.antMatchers("/users/**").permitAll()
+                    .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
+                    .antMatchers("/admin**").hasAuthority(AuthorityConstants.Admin)
+                    .antMatchers("/profile/**").hasAuthority(AuthorityConstants.User)
+                    .antMatchers("/api/**").hasAnyAuthority(AuthorityConstants.ApiUser, AuthorityConstants.Admin)
+                    .antMatchers("/dba/**").hasAuthority(AuthorityConstants.Dba)
+                    .anyRequest().authenticated()
                 .and()
-                .httpBasic()
+                    .httpBasic()
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login")
-                .successHandler(new CustomAuthenticationSuccessHandler())
-                .failureHandler(new CustomAuthenticationFailureHandler())
-                .permitAll()
+                    .formLogin()
+                    .loginPage("/login")
+                    .loginProcessingUrl("/login")
+                    .successHandler(new CustomAuthenticationSuccessHandler())
+                    .failureHandler(new CustomAuthenticationFailureHandler())
+                    .permitAll()
                 .and()
-                .logout()
-                .deleteCookies("JSESSIONID")
-                .logoutSuccessHandler(new CustomLogoutSuccessHandler())
-                .permitAll()
+                    .logout()
+                    .deleteCookies("JSESSIONID")
+                    .logoutSuccessHandler(new CustomLogoutSuccessHandler())
+                    .permitAll()
                 .and()
-                .rememberMe().rememberMeServices(springSessionRememberMeServices());
+                    .rememberMe().rememberMeServices(springSessionRememberMeServices());
 
 
         http.cors();
@@ -145,11 +148,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
     }
 
-    @Bean
-    public HttpSessionEventPublisher httpSessionEventPublisher()
-    {
-        return new HttpSessionEventPublisher();
-    }
+
 
     @Bean("authenticationManager")
     @Override
