@@ -55,6 +55,8 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
         sessionHistory.setCreationTime(convertLongTime(request.getSession(false).getCreationTime()));
         sessionHistory.setLastAccessTime(convertLongTime(request.getSession(false).getLastAccessedTime()));
         sessionHistory.setMaxInactiveInterval(request.getSession(false).getMaxInactiveInterval());
+        sessionHistory.setLoggedDataTime(LocalDateTime.now());
+        sessionHistory.setUsername(request.getUserPrincipal().getName());
 
         try
         {
