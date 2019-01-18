@@ -1,5 +1,7 @@
 package com.springtesting.security.handlers;
 
+import com.springtesting.model.SessionHistory;
+import com.springtesting.repo.SessionHistoryRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.Authentication;
@@ -13,6 +15,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Collection;
 
 
@@ -22,9 +27,17 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
 
+    private SessionHistoryRepository sessionHistoryRepository;
+
     public CustomAuthenticationSuccessHandler()
     {
 
+    }
+
+
+    public CustomAuthenticationSuccessHandler(SessionHistoryRepository sessionHistoryRepository)
+    {
+        this.sessionHistoryRepository=sessionHistoryRepository;
     }
 
     @Override
@@ -32,9 +45,28 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     {
         handle(request, response, authentication);
         clearAuthenticationAttributes(request);
+        saveRequesterInformation(request,response,authentication);
     }
 
-    public void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException
+    private void saveRequesterInformation(HttpServletRequest request, HttpServletResponse response, Authentication authentication)
+    {
+        SessionHistory sessionHistory=new SessionHistory();
+        sessionHistory.setSessionId(request.getSession(false).getId());
+        sessionHistory.setCreationTime(convertLongTime(request.getSession(false).getCreationTime()));
+        sessionHistory.setLastAccessTime(convertLongTime(request.getSession(false).getLastAccessedTime()));
+        sessionHistory.setMaxInactiveInterval(request.getSession(false).getMaxInactiveInterval());
+
+        try
+        {
+            sessionHistoryRepository.saveAndFlush(sessionHistory);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    private void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException
     {
         String targetUrl = determineTargetUrl(authentication);
         if (response.isCommitted())
@@ -80,5 +112,10 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     public void setRedirectStrategy(RedirectStrategy redirectStrategy)
     {
         this.redirectStrategy = redirectStrategy;
+    }
+
+    public LocalDateTime convertLongTime(long longValue)
+    {
+        return LocalDateTime.ofInstant(Instant.ofEpochMilli(longValue), ZoneId.systemDefault());
     }
 }

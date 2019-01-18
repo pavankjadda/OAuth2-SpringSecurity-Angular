@@ -5,9 +5,6 @@ import com.springtesting.repo.SessionHistoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +13,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 
-@Configuration
-@Order(SecurityProperties.DEFAULT_FILTER_ORDER)
+//@Configuration
+//@Order(SecurityProperties.DEFAULT_FILTER_ORDER)
 public class CustomFilter implements Filter
 {
     private Logger logger= LoggerFactory.getLogger(CustomFilter.class);
@@ -83,7 +80,7 @@ public class CustomFilter implements Filter
     }
 
 
-    public LocalDateTime convertLongDateTime(long longValue)
+    private LocalDateTime convertLongDateTime(long longValue)
     {
         return LocalDateTime.ofInstant(Instant.ofEpochMilli(longValue), ZoneId.systemDefault());
     }

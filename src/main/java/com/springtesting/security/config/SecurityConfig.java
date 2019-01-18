@@ -1,8 +1,9 @@
 package com.springtesting.security.config;
 
 
+import com.springtesting.repo.FailedLoginRepository;
+import com.springtesting.repo.SessionHistoryRepository;
 import com.springtesting.security.MyUserDetailsService;
-import com.springtesting.security.filters.CustomFilter;
 import com.springtesting.security.handlers.CustomAuthenticationFailureHandler;
 import com.springtesting.security.handlers.CustomAuthenticationSuccessHandler;
 import com.springtesting.security.handlers.CustomLogoutSuccessHandler;
@@ -20,7 +21,6 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -35,13 +35,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
 
+    private final SessionHistoryRepository sessionHistoryRepository;
+
+    private final FailedLoginRepository failedLoginRepository;
+
 
     @Autowired
-    public SecurityConfig(MyUserDetailsService userDetailsService)
+    public SecurityConfig(MyUserDetailsService userDetailsService, SessionHistoryRepository sessionHistoryRepository,FailedLoginRepository failedLoginRepository)
     {
         this.userDetailsService = userDetailsService;
+        this.sessionHistoryRepository = sessionHistoryRepository;
+        this.failedLoginRepository=failedLoginRepository;
     }
-
 
     @Override
     public void configure(AuthenticationManagerBuilder auth)
@@ -68,7 +73,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        http.addFilterBefore(new CustomFilter(), BasicAuthenticationFilter.class)
+        http//.addFilterBefore(new CustomFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
                     .antMatchers("/anonymous*").anonymous()
                     //.antMatchers("/users/**").permitAll()
@@ -84,8 +89,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                     .formLogin()
                     .loginPage("/login")
                     .loginProcessingUrl("/login")
-                    .successHandler(new CustomAuthenticationSuccessHandler())
-                    .failureHandler(new CustomAuthenticationFailureHandler())
+                    .successHandler(new CustomAuthenticationSuccessHandler(sessionHistoryRepository))
+                    .failureHandler(new CustomAuthenticationFailureHandler(failedLoginRepository))
                     .permitAll()
                 .and()
                     .logout()
@@ -138,6 +143,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     {
         return new SessionRegistryImpl();
     }
+
 
     @Override
     public void configure(WebSecurity web) throws Exception
