@@ -5,13 +5,15 @@ import lombok.Data;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 @Entity
 @Data
 @Table(name = "user_profile")
-public class UserProfile
+public class UserProfile implements Serializable
 {
 
+    private static final long serialVersionUID = 1L;
 
     @Id
     @Column(name = "id")
