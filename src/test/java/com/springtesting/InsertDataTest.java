@@ -53,6 +53,7 @@ public class InsertDataTest
     {
         User user = new User();
         user.setUsername("admin");
+        user.setId(1L);
         //user.setPassword(bCryptPasswordEncoder.encode("admin"));
         user.setPassword("$2a$12$pqcdXB.Xboa7pGNba51YHuWQVhlZM8TVguRUCL2ss8GOwhEqiqwOu");
         user.setActive(true);
@@ -62,6 +63,7 @@ public class InsertDataTest
         user = userRepository.saveAndFlush(user);
 
         UserProfile userProfile = new UserProfile();
+        userProfile.setId(1L);
         userProfile.setFirstName("Admin");
         userProfile.setLastName("Admin");
         userProfile.setEmail("admin@hm.com");
@@ -75,7 +77,8 @@ public class InsertDataTest
     {
         User user = new User();
         user.setUsername("admin");
-        user.setPassword(bCryptPasswordEncoder.encode("admin"));
+        //user.setPassword(bCryptPasswordEncoder.encode("admin"));
+        user.setPassword("$2a$12$pqcdXB.Xboa7pGNba51YHuWQVhlZM8TVguRUCL2ss8GOwhEqiqwOu");
         user.setActive(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
