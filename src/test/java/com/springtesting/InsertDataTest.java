@@ -16,6 +16,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @RunWith(SpringRunner.class)
@@ -37,6 +40,7 @@ public class InsertDataTest
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
 
     @Before
     public void setUp()
@@ -108,6 +112,11 @@ public class InsertDataTest
             System.out.println(category.toString());
     }
 
-
+    @Test
+    public void convertLongTime()
+    {
+        long longValue=1547439181186L;
+        System.out.println(LocalDateTime.ofInstant(Instant.ofEpochMilli(longValue), ZoneId.systemDefault()));
+    }
 
 }

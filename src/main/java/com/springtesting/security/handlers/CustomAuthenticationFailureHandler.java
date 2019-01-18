@@ -1,5 +1,7 @@
 package com.springtesting.security.handlers;
 
+import com.springtesting.model.FailedLogin;
+import com.springtesting.repo.FailedLoginRepository;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.security.core.AuthenticationException;
@@ -13,12 +15,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.time.LocalDateTime;
 
 public class CustomAuthenticationFailureHandler implements AuthenticationFailureHandler
 {
     protected Log logger = LogFactory.getLog(this.getClass());
 
+    private FailedLoginRepository failedLoginRepository;
+
     private RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
+
+    public CustomAuthenticationFailureHandler(FailedLoginRepository failedLoginRepository)
+    {
+        this.failedLoginRepository=failedLoginRepository;
+    }
 
 
     @Override
@@ -28,7 +38,11 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         System.out.println("Exception: " + exception.toString());
         handle(request, response, exception);
         clearAuthenticationAttributes(request);
+        saveRequesterInformation(request,response);
+
     }
+
+
 
     private void handle(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException
     {
@@ -47,6 +61,31 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         if (session == null)
             return;
         session.removeAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+    }
+
+    private void saveRequesterInformation(HttpServletRequest request, HttpServletResponse response)
+    {
+        FailedLogin failedLogin=new FailedLogin();
+        failedLogin.setRequesterIpAddress(request.getRemoteAddr());
+        failedLogin.setRequesterPort(request.getRemotePort());
+        failedLogin.setLoggedDataTime(LocalDateTime.now());
+        failedLogin.setBrowserInformation(request.getAuthType());
+        failedLogin.setAuthType(request.getAuthType());
+        failedLogin.setBrowserInformation("request.getRemoteUser(): "+request.getRemoteUser()
+                +"request.getLocalAddr(): "+request.getLocalAddr()+
+                "request.getLocalPort(): "+request.getLocalPort()+
+                "request.getServerName(): "+request.getServerName()+
+                "request.getServerPort(): "+request.getServerPort()+
+                "request.getHeaderNames(): "+request.getHeaderNames());
+
+        try
+        {
+            failedLoginRepository.saveAndFlush(failedLogin);
+        }
+        catch (Exception e)
+        {
+            e.printStackTrace();
+        }
     }
 
     protected RedirectStrategy getRedirectStrategy()
