@@ -17,12 +17,12 @@ public class ApplicationConfig implements WebMvcConfigurer
             };
 
 
-    @Override
+    /*@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry)
     {
         registry.addResourceHandler("/**")
                 .addResourceLocations(CLASSPATH_RESOURCE_LOCATIONS);
-    }
+    }*/
 
     @Bean
     public BCryptPasswordEncoder passwordEncoder()

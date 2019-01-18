@@ -76,8 +76,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     {
         http//.addFilterBefore(new CustomFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
-                    /*.antMatchers("/resources/**","/static/**","js/*","css/*")
-                    .permitAll()*/
                     .antMatchers("/anonymous*").anonymous()
                     //.antMatchers("/users/**").permitAll()
                     .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
