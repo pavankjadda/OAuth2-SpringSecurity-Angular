@@ -150,7 +150,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     public void configure(WebSecurity web)
     {
         web.ignoring()
-                .antMatchers( "classpath:/static/**","classpath:/static/vendor/**","classpath:/static/custom/**", "/js/**", "/css/**", "/images/**");
+                .antMatchers( "/static/**","/resources/**", "/js/**", "/css/**", "/images/**");
     }
 
 
