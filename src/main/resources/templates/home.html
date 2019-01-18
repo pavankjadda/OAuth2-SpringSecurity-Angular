@@ -1,4 +1,4 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <!-- Bootstrap CSS -->
     <link href="../content/libraries/css/bootstrap.min.css" rel="stylesheet">
@@ -7,13 +7,15 @@
     <script src="../content/libraries/js/jquery.slim.min.js"></script>
     <script src="../content/libraries/js/popper.min.js"></script>
     <script src="../content/libraries/js/bootstrap.min.js"></script>
+    <title>Home</title>
 
 </head>
 <body>
-<h1>Welcome Home</h1>
-
-<form method="post" th:action="@{/logout}">
-    <input type="submit" value="Sign Out"/>
-</form>
+<div class="container container-fluid">
+    <h1>Welcome Home</h1>
+    <form method="post" th:action="@{/logout}">
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
 </body>
 </html>
