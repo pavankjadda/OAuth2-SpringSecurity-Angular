@@ -9,7 +9,7 @@ import java.util.Collection;
 
 @Entity
 @Data
-@Table(name = "user")
+@Table(name = "`user`")
 public class User implements Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -37,8 +37,7 @@ public class User implements Serializable
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    @JoinColumn(name = "user_profile_id")
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private UserProfile userProfile;
 
     @ManyToMany
