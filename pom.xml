@@ -84,6 +84,13 @@
             <groupId>org.ehcache</groupId>
             <artifactId>ehcache</artifactId>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/javax.interceptor/javax.interceptor-api -->
+        <dependency>
+            <groupId>javax.interceptor</groupId>
+            <artifactId>javax.interceptor-api</artifactId>
+            <version>3.1</version>
+        </dependency>
+
 
         <!--<dependency>-->
             <!--<groupId>net.logstash.logback</groupId>-->
