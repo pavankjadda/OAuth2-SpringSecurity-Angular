@@ -3,12 +3,13 @@ package com.springtesting.model;
 import lombok.Data;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Entity
 @Data
 @Table(name = "failed_login")
-public class FailedLogin
+public class FailedLogin implements Serializable
 {
     private static final long serialVersionUID = 1L;
 
