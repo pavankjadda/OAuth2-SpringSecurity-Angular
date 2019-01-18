@@ -74,6 +74,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
+        http.authorizeRequests().antMatchers( "/static/**","/resources/**", "/js/**", "/css/**", "/images/**").permitAll();
+
         http//.addFilterBefore(new CustomFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
                     .antMatchers("/anonymous*").anonymous()
@@ -129,7 +131,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.applyPermitDefaultValues();
-        //configuration.setAllowedOrigins(Arrays.asList("*"));
         configuration.setAllowedMethods(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
@@ -145,12 +146,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     }
 
 
-
     @Override
     public void configure(WebSecurity web)
     {
         web.ignoring()
                 .antMatchers( "/static/**","/resources/**", "/js/**", "/css/**", "/images/**");
+
     }
 
 
