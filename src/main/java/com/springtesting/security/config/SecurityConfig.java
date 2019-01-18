@@ -74,10 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        http.authorizeRequests().antMatchers( "/static/**","/resources/**", "/js/**", "/css/**", "/images/**").permitAll();
-
-        http//.addFilterBefore(new CustomFilter(), BasicAuthenticationFilter.class)
-                .authorizeRequests()
+        http.authorizeRequests()
                     .antMatchers("/anonymous*").anonymous()
                     //.antMatchers("/users/**").permitAll()
                     .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
