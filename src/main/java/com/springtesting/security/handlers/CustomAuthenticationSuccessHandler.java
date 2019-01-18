@@ -29,11 +29,6 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
 
     private SessionHistoryRepository sessionHistoryRepository;
 
-    public CustomAuthenticationSuccessHandler()
-    {
-
-    }
-
 
     public CustomAuthenticationSuccessHandler(SessionHistoryRepository sessionHistoryRepository)
     {
