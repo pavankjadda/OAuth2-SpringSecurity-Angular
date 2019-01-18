@@ -37,8 +37,8 @@ public class User implements Serializable
     @Column(name = "password", nullable = false)
     private String password;
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "user")
-    @JoinColumn(name = "user_profile_id")
+    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.DETACH}, mappedBy = "user")
+    @JoinColumn(name = "user_profile_id", referencedColumnName = "id")
     private UserProfile userProfile;
 
     @ManyToMany

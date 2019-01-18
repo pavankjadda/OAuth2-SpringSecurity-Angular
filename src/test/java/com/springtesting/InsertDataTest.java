@@ -38,7 +38,7 @@ public class InsertDataTest
     private UserRepository userRepository;
 
 
-    @Autowired
+    //@Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
@@ -53,7 +53,8 @@ public class InsertDataTest
     {
         User user = new User();
         user.setUsername("admin");
-        user.setPassword(bCryptPasswordEncoder.encode("admin"));
+        //user.setPassword(bCryptPasswordEncoder.encode("admin"));
+        user.setPassword("$2a$12$pqcdXB.Xboa7pGNba51YHuWQVhlZM8TVguRUCL2ss8GOwhEqiqwOu");
         user.setActive(true);
         user.setAccountNonLocked(true);
         user.setCredentialsNonExpired(true);
