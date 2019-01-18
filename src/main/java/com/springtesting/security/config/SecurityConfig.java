@@ -76,6 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     {
         http//.addFilterBefore(new CustomFilter(), BasicAuthenticationFilter.class)
                 .authorizeRequests()
+                    .antMatchers("/resources/**","/static/**","js/*","css/*")
+                    .permitAll()
                     .antMatchers("/anonymous*").anonymous()
                     //.antMatchers("/users/**").permitAll()
                     .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
@@ -112,10 +114,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
         http.csrf()
                 .disable();
-        http.authorizeRequests()
-                .antMatchers("/resources/**","/static/**")
-                .permitAll();
-
     }
 
     @Bean
@@ -154,7 +152,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     public void configure(WebSecurity web)
     {
         web.ignoring()
-                .antMatchers( "/resources/static/**","/resources/static/vendor/**","/resources/static/custom/**", "/images/**");
+                .antMatchers( "classpath:/static/**","classpath:/static/vendor/**","classpath:/static/custom/**", "/images/**");
     }
 
 
