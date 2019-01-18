@@ -19,7 +19,7 @@
     <div th:if="${param.logout}">
         You have been logged out.
     </div>
-    <form  method="post" th:action="@{/login}">
+    <form  method="post" th:action="@{/login}" class="col-xs-12 col-sm-12 col-md-9 col-lg-9">
         <div class="form-group">
             <label for="username">Username</label>
             <input type="text" class="form-control" id="username" name="username" placeholder="Enter UserName">
