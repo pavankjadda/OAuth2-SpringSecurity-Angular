@@ -25,8 +25,9 @@ import org.springframework.session.security.web.authentication.SpringSessionReme
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 
 @Configuration
@@ -73,8 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
-        http//.addFilterBefore(new CustomFilter(), BasicAuthenticationFilter.class)
-                .authorizeRequests()
+        http.authorizeRequests()
                     .antMatchers("/anonymous*").anonymous()
                     //.antMatchers("/users/**").permitAll()
                     .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
@@ -111,7 +111,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
         http.csrf()
                 .disable();
-
     }
 
     @Bean
@@ -129,8 +128,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.applyPermitDefaultValues();
-        //configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("*"));
+        configuration.setAllowedMethods(Collections.singletonList("*"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -146,11 +144,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
 
     @Override
-    public void configure(WebSecurity web) throws Exception
+    public void configure(WebSecurity web)
     {
-        web
-                .ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/images/**");
+        web.ignoring()
+                .antMatchers( "/static/**","/resources/**", "/js/**", "/css/**", "/images/**");
+
     }
 
 

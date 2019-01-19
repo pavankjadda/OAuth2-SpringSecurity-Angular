@@ -1,10 +1,21 @@
-<html xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Spring Security Example </title>
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="js/jquery.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
 
 <body>
-<h1>Welcome Home</h1>
-
-<form method="post" th:action="@{/logout}">
-    <input type="submit" value="Sign Out"/>
-</form>
+<div class="container container-fluid">
+    <h1>Welcome Home</h1>
+    <form  method="post" th:action="@{/logout}">
+        <button type="submit" value="Sign Out" class="btn btn-primary">Sign Out</button>
+    </form>
+</div>
 </body>
 </html>

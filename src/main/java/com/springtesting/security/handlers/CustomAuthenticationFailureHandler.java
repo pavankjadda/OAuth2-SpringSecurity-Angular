@@ -1,5 +1,6 @@
 package com.springtesting.security.handlers;
 
+import com.springtesting.constants.SecurityConstants;
 import com.springtesting.model.FailedLogin;
 import com.springtesting.repo.FailedLoginRepository;
 import org.apache.commons.logging.Log;
@@ -42,17 +43,15 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
 
     }
 
-
-
     private void handle(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException
     {
-        String targetUrl = determineTargetUrl(exception);
+        String targetUrl = determineTargetUrl(request,exception);
         redirectStrategy.sendRedirect(request, response, targetUrl);
     }
 
-    private String determineTargetUrl(AuthenticationException authentication)
+    private String determineTargetUrl(HttpServletRequest request, AuthenticationException authenticationException)
     {
-        return "/login.html";
+        return SecurityConstants.formFailureLoginUrl;
     }
 
     private void clearAuthenticationAttributes(HttpServletRequest request)
@@ -88,13 +87,4 @@ public class CustomAuthenticationFailureHandler implements AuthenticationFailure
         }
     }
 
-    protected RedirectStrategy getRedirectStrategy()
-    {
-        return redirectStrategy;
-    }
-
-    public void setRedirectStrategy(RedirectStrategy redirectStrategy)
-    {
-        this.redirectStrategy = redirectStrategy;
-    }
 }
