@@ -6,11 +6,9 @@ import com.springsessiondemo.security.constants.ApplicationConstants;
 import com.springsessiondemo.security.providers.CustomDaoAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
-import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,7 +28,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-@Order(SecurityProperties.BASIC_AUTH_ORDER)
+//@Order(SecurityProperties.IGNORED_ORDER)
 @Import(PasswordEncoders.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
@@ -52,7 +50,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     public void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
-                .antMatchers("/api/v2/category").authenticated();
+                .antMatchers("/login").permitAll()
+                .anyRequest().authenticated()
+                .antMatchers("/api/v2/category").authenticated()
+                .and()
+                .formLogin().permitAll();
     }
 
     @Override

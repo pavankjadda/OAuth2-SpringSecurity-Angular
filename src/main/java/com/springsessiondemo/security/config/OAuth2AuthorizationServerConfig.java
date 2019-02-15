@@ -21,7 +21,6 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableAuthorizationServer
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import(SecurityConfig.class)
 public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter
 {
