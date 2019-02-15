@@ -30,7 +30,7 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 @Order(SecurityProperties.IGNORED_ORDER)
-@Import(Encoders.class)
+@Import(PasswordEncoders.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
