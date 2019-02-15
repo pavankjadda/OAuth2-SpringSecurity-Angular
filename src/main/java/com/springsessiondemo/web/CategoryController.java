@@ -3,6 +3,7 @@ package com.springsessiondemo.web;
 import com.springsessiondemo.model.Category;
 import com.springsessiondemo.repo.CategoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,24 +22,28 @@ public class CategoryController
     }
 
     @GetMapping(path = "/list")
+    @PreAuthorize("#oauth2.hasScope('read')")
     public List<Category> getAllCategories()
     {
         return categoryRepository.findAll();
     }
 
     @GetMapping(path = "/{id}")
+    @PreAuthorize("#oauth2.hasScope('read')")
     public Optional<Category> findCategoryById(@PathVariable Long id)
     {
         return categoryRepository.findById(id);
     }
 
     @PostMapping(value = "/create")
+    @PreAuthorize("#oauth2.hasScope('write')")
     public Category createNewCategory(@RequestBody Category category)
     {
         return categoryRepository.saveAndFlush(category);
     }
 
     @PutMapping(value = "/update")
+    @PreAuthorize("#oauth2.hasScope('write')")
     public Category updateCategory(@RequestBody Category category)
     {
         return categoryRepository.saveAndFlush(category);
