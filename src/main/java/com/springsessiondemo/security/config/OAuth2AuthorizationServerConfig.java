@@ -24,7 +24,7 @@ import javax.sql.DataSource;
 @EnableAuthorizationServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Import(SecurityConfig.class)
-public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
+public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter
 {
     private final AuthenticationManager authenticationManager;
 
@@ -36,7 +36,7 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
     private final PasswordEncoder oauthClientPasswordEncoder;
 
     @Autowired
-    public AuthServerOAuth2Config(AuthenticationManager authenticationManager, DataSource dataSource, MyUserDetailsService myUserDetailsService, @Qualifier("oauthClientPasswordEncoder") PasswordEncoder oauthClientPasswordEncoder)
+    public OAuth2AuthorizationServerConfig(AuthenticationManager authenticationManager, DataSource dataSource, MyUserDetailsService myUserDetailsService, @Qualifier("oauthClientPasswordEncoder") PasswordEncoder oauthClientPasswordEncoder)
     {
         this.authenticationManager = authenticationManager;
         this.dataSource = dataSource;
