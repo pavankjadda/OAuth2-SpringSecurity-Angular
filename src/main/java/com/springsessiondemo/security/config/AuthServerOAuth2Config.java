@@ -1,7 +1,6 @@
-package com.springsessiondemo.config;
+package com.springsessiondemo.security.config;
 
 import com.springsessiondemo.security.MyUserDetailsService;
-import com.springsessiondemo.security.config.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

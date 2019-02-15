@@ -1,4 +1,4 @@
-package com.springsessiondemo.security.config;
+package com.springsessiondemo.security.constants;
 
 
 public class AuthorityConstants

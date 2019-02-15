@@ -1,10 +1,8 @@
 package com.springsessiondemo.security.config;
 
 
-import com.springsessiondemo.config.Encoders;
-import com.springsessiondemo.repo.FailedLoginRepository;
-import com.springsessiondemo.repo.SessionHistoryRepository;
 import com.springsessiondemo.security.MyUserDetailsService;
+import com.springsessiondemo.security.constants.ApplicationConstants;
 import com.springsessiondemo.security.providers.CustomDaoAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,19 +35,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
 
-    private final SessionHistoryRepository sessionHistoryRepository;
-
-    private final FailedLoginRepository failedLoginRepository;
 
     @Qualifier("userPasswordEncoder")
     private final PasswordEncoder userPasswordEncoder;
 
     @Autowired
-    public SecurityConfig(MyUserDetailsService userDetailsService, SessionHistoryRepository sessionHistoryRepository, FailedLoginRepository failedLoginRepository, PasswordEncoder userPasswordEncoder)
+    public SecurityConfig(MyUserDetailsService userDetailsService, PasswordEncoder userPasswordEncoder)
     {
         this.userDetailsService = userDetailsService;
-        this.sessionHistoryRepository = sessionHistoryRepository;
-        this.failedLoginRepository=failedLoginRepository;
         this.userPasswordEncoder = userPasswordEncoder;
     }
 
@@ -59,11 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         auth.authenticationProvider(getDaoAuthenticationProvider());
     }
 
-  /* @Override
-   protected void configure(AuthenticationManagerBuilder auth) throws Exception
-   {
-       auth.inMemoryAuthentication().withUser("john").password("123").roles("USER");
-   }*/
+
     @Bean
     public CustomDaoAuthenticationProvider getDaoAuthenticationProvider()
     {

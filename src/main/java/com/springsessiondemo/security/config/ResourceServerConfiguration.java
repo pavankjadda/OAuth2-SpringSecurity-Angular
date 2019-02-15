@@ -1,4 +1,4 @@
-package com.springsessiondemo.config;
+package com.springsessiondemo.security.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
