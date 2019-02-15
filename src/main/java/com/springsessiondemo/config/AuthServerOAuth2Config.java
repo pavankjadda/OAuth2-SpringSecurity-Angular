@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -33,12 +34,15 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
 
     private final MyUserDetailsService myUserDetailsService;
 
+    private final PasswordEncoder oauthClientPasswordEncoder;
+
     @Autowired
-    public AuthServerOAuth2Config(AuthenticationManager authenticationManager, DataSource dataSource, MyUserDetailsService myUserDetailsService)
+    public AuthServerOAuth2Config(AuthenticationManager authenticationManager, DataSource dataSource, MyUserDetailsService myUserDetailsService, @Qualifier("oauthClientPasswordEncoder") PasswordEncoder oauthClientPasswordEncoder)
     {
         this.authenticationManager = authenticationManager;
         this.dataSource = dataSource;
         this.myUserDetailsService = myUserDetailsService;
+        this.oauthClientPasswordEncoder = oauthClientPasswordEncoder;
     }
 
     @Bean
@@ -50,7 +54,7 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
     @Override
     public void configure(AuthorizationServerSecurityConfigurer oauthServer) throws Exception
     {
-        oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
+        oauthServer.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()").passwordEncoder(oauthClientPasswordEncoder);
     }
 
     @Override
@@ -62,7 +66,7 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints)
     {
-        endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager);
+        endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager).userDetailsService(myUserDetailsService);
     }
 
     @Bean

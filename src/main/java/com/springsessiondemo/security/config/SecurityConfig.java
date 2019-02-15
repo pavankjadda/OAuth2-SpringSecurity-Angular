@@ -1,24 +1,25 @@
 package com.springsessiondemo.security.config;
 
 
+import com.springsessiondemo.config.Encoders;
 import com.springsessiondemo.repo.FailedLoginRepository;
 import com.springsessiondemo.repo.SessionHistoryRepository;
 import com.springsessiondemo.security.MyUserDetailsService;
 import com.springsessiondemo.security.providers.CustomDaoAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
@@ -31,6 +32,7 @@ import java.util.Collections;
 @Configuration
 @EnableWebSecurity
 @Order(SecurityProperties.IGNORED_ORDER)
+@Import(Encoders.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
@@ -39,13 +41,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 
     private final FailedLoginRepository failedLoginRepository;
 
+    @Qualifier("userPasswordEncoder")
+    private final PasswordEncoder userPasswordEncoder;
 
     @Autowired
-    public SecurityConfig(MyUserDetailsService userDetailsService, SessionHistoryRepository sessionHistoryRepository,FailedLoginRepository failedLoginRepository)
+    public SecurityConfig(MyUserDetailsService userDetailsService, SessionHistoryRepository sessionHistoryRepository, FailedLoginRepository failedLoginRepository, PasswordEncoder userPasswordEncoder)
     {
         this.userDetailsService = userDetailsService;
         this.sessionHistoryRepository = sessionHistoryRepository;
         this.failedLoginRepository=failedLoginRepository;
+        this.userPasswordEncoder = userPasswordEncoder;
     }
 
     @Override
@@ -72,63 +77,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Bean
     public PasswordEncoder getBCryptPasswordEncoder()
     {
-        return new BCryptPasswordEncoder(12);
+        return userPasswordEncoder;
     }
 
-    @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
-        http.authorizeRequests().antMatchers("/login").permitAll()
-                .antMatchers("/oauth/token/revokeById/**").permitAll()
-                .antMatchers("/tokens/**").permitAll()
-                .anyRequest().authenticated()
-                .and().formLogin().permitAll()
-                .and().csrf().disable();
-    }
-
-    /*
-    @Override
-    protected void configure(HttpSecurity http) throws Exception
-    {
-        http.authorizeRequests()
-                    .antMatchers("/anonymous*").anonymous()
-                    //.antMatchers("/users/**").permitAll()
-                    .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
-                    .antMatchers("/admin**").hasAuthority(AuthorityConstants.Admin)
-                    .antMatchers("/profile/**").hasAuthority(AuthorityConstants.User)
-                    .antMatchers("/api/**").hasAnyAuthority(AuthorityConstants.ApiUser, AuthorityConstants.Admin)
-                    .antMatchers("/dba/**").hasAuthority(AuthorityConstants.Dba)
-                    .anyRequest().authenticated()
-                .and()
-                    .httpBasic()
-                .and()
-                    .formLogin()
-                    .loginPage("/login")
-                    .loginProcessingUrl("/login")
-                    .successHandler(new CustomAuthenticationSuccessHandler(sessionHistoryRepository))
-                    .failureHandler(new CustomAuthenticationFailureHandler(failedLoginRepository))
-                    .permitAll()
-                .and()
-                    .logout()
-                    .deleteCookies("JSESSIONID")
-                    .logoutSuccessHandler(new CustomLogoutSuccessHandler())
-                    .permitAll()
-                .and()
-                    .rememberMe().rememberMeServices(springSessionRememberMeServices());
-
-
-        http.cors();
-
-        http.sessionManagement()
-                .sessionFixation().migrateSession()
-                .maximumSessions(1)
-                .maxSessionsPreventsLogin(false)
-                .sessionRegistry(sessionRegistry());
-
-        http.csrf()
-                .disable();
-    }
-    */
 
     @Bean
     public SpringSessionRememberMeServices springSessionRememberMeServices()
