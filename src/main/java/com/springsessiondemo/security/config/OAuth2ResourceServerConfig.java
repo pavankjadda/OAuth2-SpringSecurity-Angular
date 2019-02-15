@@ -32,7 +32,5 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter
                         .access(SECURED_WRITE_SCOPE)
                     .anyRequest()
                         .access(SECURED_READ_SCOPE);
-        http.authorizeRequests()
-                .antMatchers("/oauth/**").permitAll();
     }
 }
