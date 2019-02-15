@@ -4,12 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.env.Environment;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.io.Resource;
-import org.springframework.jdbc.datasource.DriverManagerDataSource;
-import org.springframework.jdbc.datasource.init.DataSourceInitializer;
-import org.springframework.jdbc.datasource.init.DatabasePopulator;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
@@ -27,17 +23,23 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableAuthorizationServer
+@PropertySource("classpath:application-dev.properties")
 public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter implements WebMvcConfigurer
 {
-    @Autowired
-    private AuthenticationManager authenticationManager;
-
+    private final AuthenticationManager authenticationManager;
 
     @Value("classpath:oauth_schema.sql")
     private Resource schemaScript;
 
+
+    private final DataSource dataSource;
+
     @Autowired
-    public Environment env;
+    public AuthServerOAuth2Config(AuthenticationManager authenticationManager, DataSource dataSource)
+    {
+        this.authenticationManager = authenticationManager;
+        this.dataSource = dataSource;
+    }
 
 
     @Override
@@ -50,7 +52,7 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception
     {
-        clients.jdbc(dataSource())
+        clients.jdbc(dataSource)
                 .withClient("sampleClientId")
                     .authorizedGrantTypes("implicit")
                     .scopes("read")
@@ -58,8 +60,8 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
                 .and()
                     .withClient("clientIdPassword")
                     .secret("secret")
-                .authorizedGrantTypes("password","authorization_code", "refresh_token")
-                .scopes("read");
+                    .authorizedGrantTypes("password","authorization_code", "refresh_token")
+                    .scopes("read");
     }
 
     @Override
@@ -71,35 +73,7 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
     @Bean
     public TokenStore tokenStore()
     {
-        return new JdbcTokenStore(dataSource());
-    }
-
-
-    @Bean
-    public DataSourceInitializer dataSourceInitializer(DataSource dataSource)
-    {
-        DataSourceInitializer initializer = new DataSourceInitializer();
-        initializer.setDataSource(dataSource);
-        initializer.setDatabasePopulator(databasePopulator());
-        return initializer;
-    }
-
-    private DatabasePopulator databasePopulator()
-    {
-        ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
-        populator.addScript(schemaScript);
-        return populator;
-    }
-
-    @Bean
-    public DataSource dataSource()
-    {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName(env.getProperty("spring.datasource.driverClassName"));
-        dataSource.setUrl(env.getProperty("spring.datasource.url"));
-        dataSource.setUsername(env.getProperty("spring.datasource.username"));
-        dataSource.setPassword(env.getProperty("spring.datasource.password"));
-        return dataSource;
+        return new JdbcTokenStore(dataSource);
     }
 
 
