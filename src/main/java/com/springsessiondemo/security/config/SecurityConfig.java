@@ -6,8 +6,10 @@ import com.springsessiondemo.repo.SessionHistoryRepository;
 import com.springsessiondemo.security.MyUserDetailsService;
 import com.springsessiondemo.security.providers.CustomDaoAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.security.SecurityProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -28,6 +30,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
+@Order(SecurityProperties.IGNORED_ORDER)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;

@@ -1,11 +1,14 @@
 package com.springsessiondemo.config;
 
 import com.springsessiondemo.security.MyUserDetailsService;
+import com.springsessiondemo.security.config.SecurityConfig;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.oauth2.config.annotation.configurers.ClientDetailsServiceConfigurer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.AuthorizationServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableAuthorizationServer;
@@ -19,11 +22,13 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableAuthorizationServer
-@PropertySource("classpath:application-dev.properties")
+@EnableGlobalMethodSecurity(prePostEnabled = true)
+@Import(SecurityConfig.class)
 public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
 {
     private final AuthenticationManager authenticationManager;
 
+    @Qualifier("dataSource")
     private final DataSource dataSource;
 
     private final MyUserDetailsService myUserDetailsService;
@@ -55,9 +60,9 @@ public class AuthServerOAuth2Config extends AuthorizationServerConfigurerAdapter
     }
 
     @Override
-    public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception
+    public void configure(AuthorizationServerEndpointsConfigurer endpoints)
     {
-        endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager).userDetailsService(myUserDetailsService);
+        endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager);
     }
 
     @Bean
