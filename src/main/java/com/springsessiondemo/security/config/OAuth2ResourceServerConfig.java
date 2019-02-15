@@ -26,10 +26,13 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter
     {
         http.requestMatchers()
                     .antMatchers("/api/v2/category/**")
-                .and()
+                    .and()
                     .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/api/v2/category/**")
-                .access(SECURED_WRITE_SCOPE)
-                .anyRequest().access(SECURED_READ_SCOPE);
+                    .antMatchers(HttpMethod.POST, "/api/v2/category/**")
+                        .access(SECURED_WRITE_SCOPE)
+                    .anyRequest()
+                        .access(SECURED_READ_SCOPE);
+        http.authorizeRequests()
+                .antMatchers("/oauth/**").permitAll();
     }
 }

@@ -29,7 +29,7 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-@Order(SecurityProperties.IGNORED_ORDER)
+@Order(SecurityProperties.BASIC_AUTH_ORDER)
 @Import(PasswordEncoders.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
