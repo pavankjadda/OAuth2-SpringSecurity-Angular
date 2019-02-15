@@ -10,7 +10,6 @@ import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecur
 @Configuration
 @EnableResourceServer
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-
 public class OAuth2ResourceServerConfig extends GlobalMethodSecurityConfiguration
 {
 
