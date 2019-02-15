@@ -12,7 +12,7 @@ public class FooController
 {
 
     @PreAuthorize("#oauth2.hasScope('read')")
-    @RequestMapping(method = RequestMethod.GET, value = "/foos/{id}")
+    @RequestMapping(method = RequestMethod.GET, value = "/foo/{id}")
     @ResponseBody
     public Foo findById(@PathVariable long id)
     {

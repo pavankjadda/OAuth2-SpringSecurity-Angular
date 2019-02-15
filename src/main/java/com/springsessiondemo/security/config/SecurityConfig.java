@@ -4,9 +4,6 @@ package com.springsessiondemo.security.config;
 import com.springsessiondemo.repo.FailedLoginRepository;
 import com.springsessiondemo.repo.SessionHistoryRepository;
 import com.springsessiondemo.security.MyUserDetailsService;
-import com.springsessiondemo.security.handlers.CustomAuthenticationFailureHandler;
-import com.springsessiondemo.security.handlers.CustomAuthenticationSuccessHandler;
-import com.springsessiondemo.security.handlers.CustomLogoutSuccessHandler;
 import com.springsessiondemo.security.providers.CustomDaoAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -54,6 +51,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         auth.authenticationProvider(getDaoAuthenticationProvider());
     }
 
+  /* @Override
+   protected void configure(AuthenticationManagerBuilder auth) throws Exception
+   {
+       auth.inMemoryAuthentication().withUser("john").password("123").roles("USER");
+   }*/
     @Bean
     public CustomDaoAuthenticationProvider getDaoAuthenticationProvider()
     {
@@ -70,6 +72,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return new BCryptPasswordEncoder(12);
     }
 
+    @Override
+    protected void configure(HttpSecurity http) throws Exception
+    {
+        http.authorizeRequests().antMatchers("/login").permitAll()
+                .antMatchers("/oauth/token/revokeById/**").permitAll()
+                .antMatchers("/tokens/**").permitAll()
+                .anyRequest().authenticated()
+                .and().formLogin().permitAll()
+                .and().csrf().disable();
+    }
+
+    /*
     @Override
     protected void configure(HttpSecurity http) throws Exception
     {
@@ -111,6 +125,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         http.csrf()
                 .disable();
     }
+    */
 
     @Bean
     public SpringSessionRememberMeServices springSessionRememberMeServices()
