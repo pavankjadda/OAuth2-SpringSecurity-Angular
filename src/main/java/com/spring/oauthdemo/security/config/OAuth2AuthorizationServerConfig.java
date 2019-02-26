@@ -66,6 +66,7 @@ public class OAuth2AuthorizationServerConfig extends AuthorizationServerConfigur
         endpoints.tokenStore(tokenStore()).authenticationManager(authenticationManager).userDetailsService(myUserDetailsService);
     }
 
+
     @Bean
     public TokenStore tokenStore()
     {
