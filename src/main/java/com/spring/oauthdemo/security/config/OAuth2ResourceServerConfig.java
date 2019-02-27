@@ -28,7 +28,9 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter
                 .antMatchers("/register/**")
                 .antMatchers("/users/**")
                 .antMatchers("/dba/**")
-
+            .and()
+                .authorizeRequests()
+                .anyRequest().authenticated()
            //From this point on wards custom authentication like Basic or Form auth used
            .and()
                 .authorizeRequests()
