@@ -11,7 +11,7 @@ import org.springframework.security.oauth2.provider.expression.OAuth2MethodSecur
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration
 {
     /*
-       This method handles OAuth authentication placed on top of Methods in Controllers
+       This method handles OAuth authentication code placed on top of Methods in Controllers
      */
     @Override
     protected MethodSecurityExpressionHandler createExpressionHandler()
