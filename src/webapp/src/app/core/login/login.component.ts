@@ -81,6 +81,34 @@ export class LoginComponent implements OnInit
       } );
   }
 
+  oauth2Login()
+  {
+    this.spinner.show();
+    this.authService.oauthLogin( this.f.username.value, this.f.password.value ).subscribe(
+      response=>
+      {
+        if(response['token']&&AuthService.isUserLoggedIn())
+        {
+          this.router.navigate(['/home']);
+        }
+        else
+        {
+          localStorage.removeItem( 'currentUser' );
+          this.router.navigate(['/login']);
+        }
+      },
+      error =>
+      {
+        console.log(error);
+        this.loginFailed=true;
+        this.spinner.hide();
+      },
+      () =>
+      {
+        this.spinner.hide();
+      } );
+  }
+
   logout()
   {
     this.authService.logout();

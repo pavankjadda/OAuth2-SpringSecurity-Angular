@@ -1,8 +1,8 @@
-import {HttpClient, HttpHeaders} from "@angular/common/http";
+import {HttpClient, HttpHeaders, HttpParams} from "@angular/common/http";
 import {Injectable} from "@angular/core";
 import {BehaviorSubject, Observable} from "rxjs";
 import {map} from "rxjs/operators";
-import {SERVER_API_URL} from "../../app.constants";
+import {OAUTH2_ACCESS_TOKEN_URI, OAUTH2_CLIENT_ID, OAUTH2_CLIENT_SECRET, SERVER_API_URL} from "../../app.constants";
 import {User} from "../user/model/user";
 
 @Injectable({
@@ -61,6 +61,34 @@ export class AuthService
       }));
   }
 
+  // @ts-ignore
+  oauthLogin(username: string, password: string): Observable<any>
+  {
+    const httpOptions={
+      headers: new HttpHeaders(
+        {
+         'Access-Control-Allow-Origin': '*',
+          'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
+          'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Authorization, X-Requested-With',
+          'Content-Type': 'application/json',
+          authorization: 'Basic '+btoa( OAUTH2_CLIENT_ID+':'+OAUTH2_CLIENT_SECRET )
+        } )
+    };
+    const body = new HttpParams()
+      .set('username', username)
+      .set('password', password)
+      .set('grant_type', 'password');
+
+  this.httpClient.post(OAUTH2_ACCESS_TOKEN_URI, body.toString(), httpOptions).subscribe(
+    data=>{
+                  window.sessionStorage.setItem('token', JSON.stringify(data));
+                  console.log('access_token: '+window.sessionStorage.getItem('token'));
+                },
+                error =>
+                {
+                  alert(error.error.error_description)
+                });
+  }
   logout()
   {
     localStorage.removeItem( 'currentUser' );
