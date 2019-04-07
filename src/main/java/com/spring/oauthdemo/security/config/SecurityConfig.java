@@ -20,6 +20,11 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
+import java.util.Collections;
 
 
 @Configuration
@@ -44,6 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     public void configure(HttpSecurity http) throws Exception
     {
+
         http.authorizeRequests()
                 .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/anonymous*").anonymous()
@@ -65,6 +71,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                     .logout()
                 .deleteCookies("X-Auth-Token")
                 .permitAll();
+
+        http.csrf().disable();
     }
 
     @Override
@@ -100,7 +108,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return rememberMeServices;
     }
 
-    /*
     @Bean
     CorsConfigurationSource corsConfigurationSource()
     {
@@ -111,7 +118,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
         return source;
-    }*/
+    }
 
 
     @Bean

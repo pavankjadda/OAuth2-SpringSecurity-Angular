@@ -67,27 +67,18 @@ export class AuthService
     const httpOptions={
       headers: new HttpHeaders(
         {
-         'Access-Control-Allow-Origin': '*',
-          'Access-Control-Allow-Methods': 'DELETE, POST, GET, OPTIONS',
-          'Access-Control-Allow-Headers': 'Access-Control-Allow-Headers, Authorization, X-Requested-With',
           'Content-Type': 'application/json',
           authorization: 'Basic '+btoa( OAUTH2_CLIENT_ID+':'+OAUTH2_CLIENT_SECRET )
         } )
     };
+
     const body = new HttpParams()
       .set('username', username)
       .set('password', password)
-      .set('grant_type', 'password');
+      .set("grant_type", "password")
+      .set("client_id", "spring-security-oauth2-read-write-client");
 
-  this.httpClient.post(OAUTH2_ACCESS_TOKEN_URI, body.toString(), httpOptions).subscribe(
-    data=>{
-                  window.sessionStorage.setItem('token', JSON.stringify(data));
-                  console.log('access_token: '+window.sessionStorage.getItem('token'));
-                },
-                error =>
-                {
-                  alert(error.error.error_description)
-                });
+    return this.httpClient.post<any>(OAUTH2_ACCESS_TOKEN_URI, body.toString(), httpOptions);
   }
   logout()
   {
