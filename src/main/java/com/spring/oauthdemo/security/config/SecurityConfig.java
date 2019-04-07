@@ -50,7 +50,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     public void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
-                .antMatchers("/oauth/token", "/login").permitAll()
+                .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/anonymous*").anonymous()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
