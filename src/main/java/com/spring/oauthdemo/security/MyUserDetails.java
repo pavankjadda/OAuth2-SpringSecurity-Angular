@@ -12,7 +12,7 @@ public class MyUserDetails implements UserDetails
 
     private Collection<? extends GrantedAuthority> roles;
 
-    public MyUserDetails(User user, Collection<? extends GrantedAuthority> roles)
+    MyUserDetails(User user, Collection<? extends GrantedAuthority> roles)
     {
         this.user = user;
         this.roles = roles;
@@ -66,4 +66,5 @@ public class MyUserDetails implements UserDetails
     {
         return user.getActive();
     }
+
 }

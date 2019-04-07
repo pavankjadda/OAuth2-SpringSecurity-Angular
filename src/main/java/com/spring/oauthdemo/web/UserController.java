@@ -2,10 +2,14 @@ package com.spring.oauthdemo.web;
 
 import com.spring.oauthdemo.model.User;
 import com.spring.oauthdemo.repo.UserRepository;
+import com.spring.oauthdemo.security.MyUserDetails;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
@@ -51,5 +55,18 @@ public class UserController
     public User findByUsername(@PathVariable String username)
     {
         return userRepository.findByUsername(username);
+    }
+
+    @GetMapping(value = "/user/oauth2")
+    public Object getUserInfoUsingOAuth2Token()
+    {
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails myUserDetails = null;
+        if (!(authentication instanceof AnonymousAuthenticationToken))
+        {
+            myUserDetails = (MyUserDetails) authentication.getPrincipal();
+        }
+        return myUserDetails;
     }
 }

@@ -60,7 +60,7 @@ export class AuthService
   }
 
   // @ts-ignore
-  oauthLogin(username: string, password: string): Observable<any>
+  oauthLogin(username: string, password: string)
   {
     const httpOptions={
       headers: new HttpHeaders(
@@ -76,22 +76,10 @@ export class AuthService
       .set('password', password)
       .set("client_id", "spring-security-oauth2-read-write-client");
 
-    return this.httpClient.post<any>(OAUTH2_ACCESS_TOKEN_URI, body.toString(), httpOptions)
-               .pipe(response =>
-               {
-                 //login successful if there's a Spring Session token in the response
-                 if (response && response["access_token"])
-                 {
-                   //store user details and Spring Session OAuth token refreshes
-                   localStorage.setItem("access_token", response["access_token"]);
-                   localStorage.setItem("refresh_token", response["access_token"]);
-                   localStorage.setItem("token_type", response["token_type"]);
-                   localStorage.setItem("scope", response["scope"]);
-                   localStorage.setItem("isLoggedIn", "true");
-                 }
-                 return response;
-               });
+    return this.httpClient.post<any>(OAUTH2_ACCESS_TOKEN_URI, body.toString(), httpOptions);
+
   }
+
   logout()
   {
     localStorage.setItem("access_token", null);
@@ -104,4 +92,15 @@ export class AuthService
     localStorage.setItem( 'isLoggedIn', 'false' );
   }
 
+  getUserInfoUsingOAuth2Token(accessToken: any)
+  {
+    const httpOptions = {
+      headers: new HttpHeaders(
+        {
+          "Content-Type": "application/x-www-form-urlencoded",
+          authorization: "Bearer " + accessToken
+        })
+    };
+    return this.httpClient.get<any>(SERVER_API_URL + "user/oauth2", httpOptions);
+  }
 }

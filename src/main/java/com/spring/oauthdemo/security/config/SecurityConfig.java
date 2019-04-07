@@ -4,6 +4,7 @@ package com.spring.oauthdemo.security.config;
 import com.spring.oauthdemo.security.MyUserDetailsService;
 import com.spring.oauthdemo.security.constants.ApplicationConstants;
 import com.spring.oauthdemo.security.constants.AuthorityConstants;
+import com.spring.oauthdemo.security.filters.SimpleCorsFilter;
 import com.spring.oauthdemo.security.providers.CustomDaoAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -19,6 +20,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -35,19 +37,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
 
+    final SimpleCorsFilter simpleCorsFilter;
+
     @Qualifier("userPasswordEncoder")
     private final PasswordEncoder userPasswordEncoder;
 
     @Autowired
-    public SecurityConfig(MyUserDetailsService userDetailsService, PasswordEncoder userPasswordEncoder)
+    public SecurityConfig(MyUserDetailsService userDetailsService, PasswordEncoder userPasswordEncoder, SimpleCorsFilter simpleCorsFilter)
     {
         this.userDetailsService = userDetailsService;
         this.userPasswordEncoder = userPasswordEncoder;
+        this.simpleCorsFilter = simpleCorsFilter;
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception
     {
+        http.addFilterBefore(simpleCorsFilter, BasicAuthenticationFilter.class);
         http.authorizeRequests()
                 .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/anonymous*").anonymous()
