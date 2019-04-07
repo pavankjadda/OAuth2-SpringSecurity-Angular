@@ -1,8 +1,10 @@
 package com.spring.oauthdemo.web;
 
+import com.spring.oauthdemo.dto.UserDto;
 import com.spring.oauthdemo.model.User;
 import com.spring.oauthdemo.repo.UserRepository;
 import com.spring.oauthdemo.security.MyUserDetails;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -19,11 +21,13 @@ public class UserController
 {
     private final UserRepository userRepository;
 
+    private ModelMapper modelMapper;
 
     @Autowired
-    public UserController(UserRepository userRepository)
+    public UserController(UserRepository userRepository, ModelMapper modelMapper)
     {
         this.userRepository = userRepository;
+        this.modelMapper = modelMapper;
     }
 
 
@@ -58,15 +62,17 @@ public class UserController
     }
 
     @GetMapping(value = "/user/oauth2")
-    public Object getUserInfoUsingOAuth2Token()
+    public UserDto getUserInfoUsingOAuth2Token()
     {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        MyUserDetails myUserDetails = null;
+        UserDto userDto = new UserDto();
         if (!(authentication instanceof AnonymousAuthenticationToken))
         {
-            myUserDetails = (MyUserDetails) authentication.getPrincipal();
+            MyUserDetails myUserDetails = (MyUserDetails) authentication.getPrincipal();
+            User user = findByUsername(myUserDetails.getUsername());
+            modelMapper.map(user, userDto);
         }
-        return myUserDetails;
+        return userDto;
     }
 }

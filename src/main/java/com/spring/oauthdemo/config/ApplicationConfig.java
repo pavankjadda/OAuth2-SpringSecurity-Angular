@@ -1,5 +1,6 @@
 package com.spring.oauthdemo.config;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
@@ -26,5 +27,11 @@ public class ApplicationConfig  implements WebMvcConfigurer
     public HttpSessionEventPublisher httpSessionEventPublisher()
     {
         return new HttpSessionEventPublisher();
+    }
+
+    @Bean
+    public ModelMapper modelMapper()
+    {
+        return new ModelMapper();
     }
 }

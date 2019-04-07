@@ -47,8 +47,8 @@ export class AuthService
     return this.httpClient.get<any>( SERVER_API_URL+'login', httpOptions)
       .pipe( map( user =>
       {
-        // login successful if there's a Spring Session token in the response
-        if(user && user.token)
+        // login successful if user id exists
+        if (user.id)
         {
           // store user details and Spring Session token in local storage to keep user logged in between page refreshes
           localStorage.setItem( 'currentUser', JSON.stringify( user ) );
@@ -77,7 +77,28 @@ export class AuthService
       .set("client_id", "spring-security-oauth2-read-write-client");
 
     return this.httpClient.post<any>(OAUTH2_ACCESS_TOKEN_URI, body.toString(), httpOptions);
+  }
 
+  getUserInfoUsingOAuth2Token(accessToken: any)
+  {
+    const httpOptions = {
+      headers: new HttpHeaders(
+        {
+          "Content-Type": "application/x-www-form-urlencoded",
+          authorization: "Bearer " + accessToken
+        })
+    };
+    return this.httpClient.get<any>(SERVER_API_URL + "user/oauth2", httpOptions)
+               .pipe(map(user =>
+               {
+                 if (user)
+                 {
+                   localStorage.setItem("currentUser", JSON.stringify(user));
+                   localStorage.setItem("isLoggedIn", "true");
+                   this.currentUserSubject.next(user);
+                 }
+                 return user;
+               }));
   }
 
   logout()
@@ -92,15 +113,5 @@ export class AuthService
     localStorage.setItem( 'isLoggedIn', 'false' );
   }
 
-  getUserInfoUsingOAuth2Token(accessToken: any)
-  {
-    const httpOptions = {
-      headers: new HttpHeaders(
-        {
-          "Content-Type": "application/x-www-form-urlencoded",
-          authorization: "Bearer " + accessToken
-        })
-    };
-    return this.httpClient.get<any>(SERVER_API_URL + "user/oauth2", httpOptions);
-  }
+
 }

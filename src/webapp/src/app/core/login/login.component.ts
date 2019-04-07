@@ -141,10 +141,13 @@ export class LoginComponent implements OnInit
     this.authService.getUserInfoUsingOAuth2Token(accessToken).subscribe(
       userObject =>
       {
+        this.router.navigate(["/home"]);
         console.log("userObject" + userObject);
       },
       error =>
       {
+        localStorage.removeItem("currentUser");
+        this.router.navigate(["/login"]);
         console.log("Error occurred while fetching user info");
       }
     );

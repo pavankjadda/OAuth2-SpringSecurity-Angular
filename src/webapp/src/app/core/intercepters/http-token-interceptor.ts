@@ -14,12 +14,13 @@ export class HttpTokenInterceptor implements HttpInterceptor
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
   {
     let currentUser=this.authService.currentUserValue;
-    if(currentUser&&currentUser.token)
+    let accessToken = localStorage.getItem("access_token");
+    if (currentUser && accessToken)
     {
       request=request.clone(
         {
           setHeaders: {
-            'X-Auth-Token': currentUser.token
+            "Authorization": "Bearer " + accessToken
           }
         } );
     }

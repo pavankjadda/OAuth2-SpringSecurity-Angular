@@ -24,8 +24,6 @@ public class UserDto implements Serializable
 
     private Boolean accountNonExpired;
 
-    private String password;
-
     private UserProfile userProfile;
 
     private Collection<Role> roles;
