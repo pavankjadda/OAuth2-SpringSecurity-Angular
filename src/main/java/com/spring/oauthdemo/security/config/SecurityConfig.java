@@ -3,6 +3,7 @@ package com.spring.oauthdemo.security.config;
 
 import com.spring.oauthdemo.security.MyUserDetailsService;
 import com.spring.oauthdemo.security.constants.ApplicationConstants;
+import com.spring.oauthdemo.security.constants.AuthorityConstants;
 import com.spring.oauthdemo.security.providers.CustomDaoAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +12,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -22,7 +24,7 @@ import org.springframework.session.security.web.authentication.SpringSessionReme
 
 @Configuration
 @EnableWebSecurity
-//@Order(1)
+//@Order(2)
 @Import(PasswordEncoders.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
@@ -39,21 +41,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         this.userPasswordEncoder = userPasswordEncoder;
     }
 
-
-   /* @Override
+    @Override
     public void configure(HttpSecurity http) throws Exception
     {
         http.authorizeRequests()
+                .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/anonymous*").anonymous()
                 .antMatchers("/register").permitAll()
                 .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
                 .antMatchers("/admin**").hasAuthority(AuthorityConstants.Admin)
                 .antMatchers("/profile/**").hasAuthority(AuthorityConstants.User)
-                //.antMatchers("/api/**").hasAnyAuthority(AuthorityConstants.ApiUser,AuthorityConstants.Admin)
+                .antMatchers("/api/**").hasAnyAuthority(AuthorityConstants.ApiUser, AuthorityConstants.Admin)
                 .antMatchers("/dba/**").hasAuthority(AuthorityConstants.Dba)
                 .anyRequest().authenticated()
-                .and()
-                    .httpBasic()
                 .and()
                     .exceptionHandling()
                 .and()
@@ -63,9 +63,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                     .permitAll()
                 .and()
                     .logout()
-                    .deleteCookies("X-Auth-Token")
-                    .permitAll();
-    }*/
+                .deleteCookies("X-Auth-Token")
+                .permitAll();
+    }
 
     @Override
     public void configure(AuthenticationManagerBuilder auth)
