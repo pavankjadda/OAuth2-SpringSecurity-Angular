@@ -33,7 +33,6 @@ public class LoginController
         {
             String username = request.getUserPrincipal().getName();
             String sessionValue = getSessionValue(request);
-
             modelAndView.setViewName("redirect:home");
             return modelAndView;
         }
