@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: 8090
   servlet:
     session:
       cookie:
@@ -20,7 +20,7 @@ spring:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
   datasource:
-    url: jdbc:mysql://localhost:3306/springsessiontest?serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/springsessiondemo?serverTimezone=UTC
     username: root
     password: bcmc1234
 
