@@ -99,7 +99,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         rememberMeServices.setValiditySeconds(ApplicationConstants.rememberMeTimeOut);
         return rememberMeServices;
     }
-/*
+
+    /*
     @Bean
     CorsConfigurationSource corsConfigurationSource()
     {
