@@ -10,7 +10,6 @@ import {User} from "../user/model/user";
 })
 export class AuthService
 {
-
   constructor(private httpClient: HttpClient)
   {
     this.currentUserSubject=new BehaviorSubject<User>( JSON.parse( localStorage.getItem( 'currentUser' ) ) );
@@ -42,7 +41,6 @@ export class AuthService
           authorization: 'Basic '+btoa( username+':'+password )
         } )
     };
-
     //return this.httpClient.get<any>( SERVER_API_URL+'login', httpOptions );
 
 
@@ -67,21 +65,40 @@ export class AuthService
     const httpOptions={
       headers: new HttpHeaders(
         {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/x-www-form-urlencoded",
           authorization: 'Basic '+btoa( OAUTH2_CLIENT_ID+':'+OAUTH2_CLIENT_SECRET )
-        } )
+        })
     };
 
     const body = new HttpParams()
+      .set("grant_type", "password")
       .set('username', username)
       .set('password', password)
-      .set("grant_type", "password")
       .set("client_id", "spring-security-oauth2-read-write-client");
 
-    return this.httpClient.post<any>(OAUTH2_ACCESS_TOKEN_URI, body.toString(), httpOptions);
+    return this.httpClient.post<any>(OAUTH2_ACCESS_TOKEN_URI, body.toString(), httpOptions)
+               .pipe(response =>
+               {
+                 //login successful if there's a Spring Session token in the response
+                 if (response && response["access_token"])
+                 {
+                   //store user details and Spring Session OAuth token refreshes
+                   localStorage.setItem("access_token", response["access_token"]);
+                   localStorage.setItem("refresh_token", response["access_token"]);
+                   localStorage.setItem("token_type", response["token_type"]);
+                   localStorage.setItem("scope", response["scope"]);
+                   localStorage.setItem("isLoggedIn", "true");
+                 }
+                 return response;
+               });
   }
   logout()
   {
+    localStorage.setItem("access_token", null);
+    localStorage.setItem("refresh_token", null);
+    localStorage.setItem("token_type", null);
+    localStorage.setItem("scope", null);
+
     localStorage.removeItem( 'currentUser' );
     this.currentUserSubject.next( null );
     localStorage.setItem( 'isLoggedIn', 'false' );

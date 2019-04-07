@@ -35,7 +35,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
 
-
     @Qualifier("userPasswordEncoder")
     private final PasswordEncoder userPasswordEncoder;
 
@@ -49,7 +48,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     public void configure(HttpSecurity http) throws Exception
     {
-
         http.authorizeRequests()
                 .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/anonymous*").anonymous()
