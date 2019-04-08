@@ -11,10 +11,10 @@ import java.io.IOException;
 
 @Component
 @Order(Ordered.HIGHEST_PRECEDENCE)
-public class SimpleCorsFilter implements Filter
+public class OAuth2CorsFilter implements Filter
 {
 
-    public SimpleCorsFilter()
+    public OAuth2CorsFilter()
     {
     }
 
@@ -24,9 +24,9 @@ public class SimpleCorsFilter implements Filter
         HttpServletResponse response = (HttpServletResponse) res;
         HttpServletRequest request = (HttpServletRequest) req;
         response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Access-Control-Allow-Methods", "POST, GET, OPTIONS, DELETE");
+        response.setHeader("Access-Control-Allow-Methods", "POST, PUT, GET, OPTIONS, DELETE");
         response.setHeader("Access-Control-Max-Age", "3600");
-        response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization");
+        response.setHeader("Access-Control-Allow-Headers", "x-requested-with, authorization, Content-Type");
         response.setHeader("Content-Type", "application/x-www-form-urlencoded");
 
         if ("OPTIONS".equalsIgnoreCase(request.getMethod()))

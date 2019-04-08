@@ -4,7 +4,7 @@ package com.spring.oauthdemo.security.config;
 import com.spring.oauthdemo.security.MyUserDetailsService;
 import com.spring.oauthdemo.security.constants.ApplicationConstants;
 import com.spring.oauthdemo.security.constants.AuthorityConstants;
-import com.spring.oauthdemo.security.filters.SimpleCorsFilter;
+import com.spring.oauthdemo.security.filters.OAuth2CorsFilter;
 import com.spring.oauthdemo.security.providers.CustomDaoAuthenticationProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -37,23 +37,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
 
-    final SimpleCorsFilter simpleCorsFilter;
+    final private OAuth2CorsFilter oAuth2CorsFilter;
 
     @Qualifier("userPasswordEncoder")
     private final PasswordEncoder userPasswordEncoder;
 
     @Autowired
-    public SecurityConfig(MyUserDetailsService userDetailsService, PasswordEncoder userPasswordEncoder, SimpleCorsFilter simpleCorsFilter)
+    public SecurityConfig(MyUserDetailsService userDetailsService, PasswordEncoder userPasswordEncoder, OAuth2CorsFilter oAuth2CorsFilter)
     {
         this.userDetailsService = userDetailsService;
         this.userPasswordEncoder = userPasswordEncoder;
-        this.simpleCorsFilter = simpleCorsFilter;
+        this.oAuth2CorsFilter = oAuth2CorsFilter;
     }
 
     @Override
     public void configure(HttpSecurity http) throws Exception
     {
-        http.addFilterBefore(simpleCorsFilter, BasicAuthenticationFilter.class);
+        http.addFilterBefore(oAuth2CorsFilter, BasicAuthenticationFilter.class);
         http.authorizeRequests()
                 .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/anonymous*").anonymous()

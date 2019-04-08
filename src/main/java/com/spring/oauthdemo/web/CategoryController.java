@@ -43,12 +43,4 @@ public class CategoryController
     {
         return categoryRepository.saveAndFlush(category);
     }
-
-    @PostMapping(path = "/createmultiplecategories")
-    public List<Category> createNewCategoriesInBatch(@RequestBody List<Category> categories)
-    {
-        return categoryRepository.saveAll(categories);
-    }
-
-
 }
