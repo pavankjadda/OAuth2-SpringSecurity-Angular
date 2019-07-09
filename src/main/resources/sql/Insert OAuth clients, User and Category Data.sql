@@ -1,6 +1,6 @@
 /* Insert OAuth client details */
-INSERT INTO OAUTH_CLIENT_DETAILS(CLIENT_ID, RESOURCE_IDS, CLIENT_SECRET, SCOPE, AUTHORIZED_GRANT_TYPES, AUTHORITIES, ACCESS_TOKEN_VALIDITY, REFRESH_TOKEN_VALIDITY) VALUES ('spring-security-oauth2-read-client', 'resource-server-rest-api',<Hashed password>,'read', 'password,authorization_code,refresh_token,implicit', 'USER', 10800, 2592000);
-INSERT INTO OAUTH_CLIENT_DETAILS(CLIENT_ID, RESOURCE_IDS, CLIENT_SECRET, SCOPE, AUTHORIZED_GRANT_TYPES, AUTHORITIES, ACCESS_TOKEN_VALIDITY, REFRESH_TOKEN_VALIDITY) VALUES ('spring-security-oauth2-read-write-client', 'resource-server-rest-api',<Hashed password>,'read,write', 'password,authorization_code,refresh_token,implicit', 'USER', 10800, 2592000);
+INSERT INTO OAUTH_CLIENT_DETAILS(CLIENT_ID, RESOURCE_IDS, CLIENT_SECRET, SCOPE, AUTHORIZED_GRANT_TYPES, AUTHORITIES, ACCESS_TOKEN_VALIDITY, REFRESH_TOKEN_VALIDITY) VALUES ('spring-security-oauth2-read-client', 'resource-server-rest-api','$2a$04$3IY6ZOrlvzRlh3Op8GdEMem5JtKl.pOcRKLotqcZKlN14fYddYGPa','read', 'password,authorization_code,refresh_token,implicit', 'USER', 10800, 2592000);
+INSERT INTO OAUTH_CLIENT_DETAILS(CLIENT_ID, RESOURCE_IDS, CLIENT_SECRET, SCOPE, AUTHORIZED_GRANT_TYPES, AUTHORITIES, ACCESS_TOKEN_VALIDITY, REFRESH_TOKEN_VALIDITY) VALUES ('spring-security-oauth2-read-write-client', 'resource-server-rest-api','$2a$04$3IY6ZOrlvzRlh3Op8GdEMem5JtKl.pOcRKLotqcZKlN14fYddYGPa','read,write', 'password,authorization_code,refresh_token,implicit', 'USER', 10800, 2592000);
 
 
 /* Insert Data into User Table  */
@@ -24,7 +24,8 @@ insert into springoauthdemo.privilege values(3,'DELETE_PRIVILEGE');
 
 /* Insert Data into UserRole Table  */
 INSERT INTO `springoauthdemo`.`user_role`(`id`,`user_id`,`role_id`) VALUES (1,2,1);
-INSERT INTO `springoauthdemo`.`user_role`(`id`,`user_id`,`role_id`) VALUES (2,1,2);
+INSERT INTO `springoauthdemo`.`user_role`(`id`,`user_id`,`role_id`) VALUES (2,1,1);
+INSERT INTO `springoauthdemo`.`user_role`(`id`,`user_id`,`role_id`) VALUES (3,1,2);
 
 /* Insert Data into RolePrivilege Table  */
 insert into springoauthdemo.role_privilege values(2,1);
