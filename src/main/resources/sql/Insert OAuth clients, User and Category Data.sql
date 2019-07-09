@@ -4,7 +4,7 @@ INSERT INTO OAUTH_CLIENT_DETAILS(CLIENT_ID, RESOURCE_IDS, CLIENT_SECRET, SCOPE, 
 
 
 /* Insert Data into User Table  */
-INSERT INTO springsessiontest.user VALUES(1,1,1,1,1,'$2a$12$pqcdXB.Xboa7pGNba51YHuWQVhlZM8TVguRUCL2ss8GOwhEqiqwOu','admin');
+INSERT INTO springsessiontest.user VALUES(1,1,1,1,1,'$2a$12$xTnx9IuV4Kb2OZav540BReKnqgpIYYgHce4ZJb2QTxTQ6j7H5NLlS','admin');
 INSERT INTO springsessiontest.user VALUES(2,1,1,1,1,'$2a$12$kRstkVGM88bvzGqxcWDX5eVDvT0iy40YPAKMRiKX9D2jIsXmKXOAK','user');
 
 
