@@ -26,7 +26,8 @@ import {StateComponent} from "./state/state.component";
     CommonModule,
     ReactiveFormsModule,
     NgxSpinnerModule,
-    ApiRoutingModule],
+    ApiRoutingModule
+  ],
 
   declarations: [
     CityComponent,
@@ -42,6 +43,9 @@ import {StateComponent} from "./state/state.component";
     CategoryHomeComponent,
     CategoryEditComponent,
     CategoryDeleteComponent
+  ],
+  exports: [
+    RouterModule
   ]
 })
 
