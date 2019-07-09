@@ -15,5 +15,4 @@ public class OAuth2ResourceServerConfig extends ResourceServerConfigurerAdapter
     {
         resources.resourceId(ResourceConstants.RESOURCE_SERVER_REST_API);
     }
-
 }

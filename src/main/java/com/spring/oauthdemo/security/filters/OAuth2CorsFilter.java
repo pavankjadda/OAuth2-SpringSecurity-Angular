@@ -14,10 +14,6 @@ import java.io.IOException;
 public class OAuth2CorsFilter implements Filter
 {
 
-    public OAuth2CorsFilter()
-    {
-    }
-
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException
     {
