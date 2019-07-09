@@ -4,7 +4,6 @@ import {NgModule} from "@angular/core";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {BrowserModule} from "@angular/platform-browser";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
-import {AccountModule} from "./account/account.module";
 import {ApiModule} from "./api/api.module";
 import {AppRoutingModule} from "./app-routing.module";
 
@@ -27,7 +26,6 @@ import {PageNotFoundComponent} from "./layouts/pagenotfound/pagenotfound.compone
     HttpClientModule,
     LayoutModule,
     CoreModule,
-    AccountModule,
     HelpersModule,
     ApiModule,
     AppRoutingModule
