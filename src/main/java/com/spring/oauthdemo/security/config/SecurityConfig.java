@@ -37,7 +37,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
     private final MyUserDetailsService userDetailsService;
 
-    final private OAuth2CorsFilter oAuth2CorsFilter;
+    private final OAuth2CorsFilter oAuth2CorsFilter;
 
     @Qualifier("userPasswordEncoder")
     private final PasswordEncoder userPasswordEncoder;
