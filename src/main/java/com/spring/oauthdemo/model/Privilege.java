@@ -3,7 +3,13 @@ package com.spring.oauthdemo.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -12,8 +18,8 @@ import java.util.Collection;
 @Table(name = "privilege")
 public class Privilege implements Serializable
 {
-    private static final long serialVersionUID = 3L;
 
+    private static final long serialVersionUID = 2219784472971192984L;
     @Id
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)

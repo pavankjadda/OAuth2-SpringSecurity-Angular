@@ -1,10 +1,17 @@
 package com.spring.oauthdemo.model;
 
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import java.io.Serializable;
 import java.util.Collection;
 
@@ -13,8 +20,8 @@ import java.util.Collection;
 @Table(name = "role")
 public class Role implements Serializable
 {
-    private static final long serialVersionUID = 1L;
 
+    private static final long serialVersionUID = 4937887822656298534L;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
