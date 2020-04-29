@@ -1,11 +1,11 @@
-<div>
+<div class="col-12">
   <ngx-spinner bdColor="rgba(51, 51, 51, 0.8)" color="#fff" size="large" type="ball-elastic-dots"></ngx-spinner>
 
   <h2>Login</h2>
   <form [formGroup]="loginForm">
-    <div class="form-group">
-      <label for="username">Username</label>
-      <input [ngClass]="{ 'is-invalid': submitted && f.username.errors }" class="form-control"
+    <div class="form-group" >
+      <label for="username" >Username</label>
+      <input [ngClass]="{ 'is-invalid': submitted && f.username.errors }" class="form-control col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3"
              formControlName="username" id="username"
              type="text"/>
       <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
@@ -14,7 +14,7 @@
     </div>
     <div class="form-group">
       <label for="password">Password</label>
-      <input [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="form-control"
+      <input [ngClass]="{ 'is-invalid': submitted && f.password.errors }" class="form-control col-sm-12 col-xs-12 col-md-3 col-lg-3 col-xl-3"
              formControlName="password" id="password"
              type="password"/>
       <div *ngIf="submitted && f.password.errors" class="invalid-feedback">
