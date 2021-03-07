@@ -31,7 +31,6 @@ import java.util.Collections;
 
 @Configuration
 @EnableWebSecurity
-//@Order(2)
 @Import(PasswordEncoders.class)
 public class SecurityConfig extends WebSecurityConfigurerAdapter
 {
