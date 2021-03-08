@@ -123,22 +123,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         return source;
     }
 
-
     @Bean
     SessionRegistry sessionRegistry()
     {
         return new SessionRegistryImpl();
     }
 
-
     @Override
     public void configure(WebSecurity web)
     {
         web.ignoring().antMatchers( "/static/**","/resources/**", "/js/**", "/css/**", "/images/**");
-
     }
-
-
 
     @Bean("authenticationManager")
     @Override
