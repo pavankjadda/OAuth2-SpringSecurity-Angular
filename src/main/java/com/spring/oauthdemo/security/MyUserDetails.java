@@ -8,9 +8,9 @@ import java.util.Collection;
 
 public class MyUserDetails implements UserDetails
 {
-    private User user;
+    private final User user;
 
-    private Collection<? extends GrantedAuthority> roles;
+    private final Collection<? extends GrantedAuthority> roles;
 
     MyUserDetails(User user, Collection<? extends GrantedAuthority> roles)
     {

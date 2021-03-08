@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 @Entity
@@ -27,21 +26,14 @@ public class UserProfile implements Serializable
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @NotNull(message = "First name must not be null")
     @Column(name = "first_name", nullable = false)
     private String firstName;
 
-
-    @NotNull(message = "Last name must not be null")
     @Column(name = "last_name", nullable = false)
     private String lastName;
 
-
-    @NotNull(message = "Email must not be null")
     @Column(name = "email", nullable = false)
     private String email;
-
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonIgnore

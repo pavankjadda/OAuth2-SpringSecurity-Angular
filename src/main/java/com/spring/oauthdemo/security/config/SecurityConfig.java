@@ -57,11 +57,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/anonymous*").anonymous()
                 .antMatchers("/register").permitAll()
-                .antMatchers("/users/**").hasAuthority(AuthorityConstants.Admin)
-                .antMatchers("/admin**").hasAuthority(AuthorityConstants.Admin)
-                .antMatchers("/profile/**").hasAuthority(AuthorityConstants.User)
-                .antMatchers("/api/**").hasAnyAuthority(AuthorityConstants.ApiUser, AuthorityConstants.Admin)
-                .antMatchers("/dba/**").hasAuthority(AuthorityConstants.Dba)
+                .antMatchers("/users/**").hasAuthority(AuthorityConstants.ROLE_ADMIN)
+                .antMatchers("/admin**").hasAuthority(AuthorityConstants.ROLE_ADMIN)
+                .antMatchers("/profile/**").hasAuthority(AuthorityConstants.ROLE_USER)
+                .antMatchers("/api/**").hasAnyAuthority(AuthorityConstants.ROLE_API_USER, AuthorityConstants.ROLE_ADMIN)
+                .antMatchers("/dba/**").hasAuthority(AuthorityConstants.ROLE_DBA)
                 .anyRequest().authenticated()
                 .and()
                     .exceptionHandling()
@@ -107,7 +107,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
         SpringSessionRememberMeServices rememberMeServices = new SpringSessionRememberMeServices();
         // optionally customize
         rememberMeServices.setRememberMeParameterName("remember-me");
-        rememberMeServices.setValiditySeconds(ApplicationConstants.rememberMeTimeOut);
+        rememberMeServices.setValiditySeconds(ApplicationConstants.REMEMBER_ME_TIME_OUT);
         return rememberMeServices;
     }
 

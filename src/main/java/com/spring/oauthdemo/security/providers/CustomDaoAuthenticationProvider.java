@@ -33,7 +33,7 @@ public class CustomDaoAuthenticationProvider extends AbstractUserDetailsAuthenti
     }
 
     /* Validate Password against Database */
-    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication) throws AuthenticationException
+    protected void additionalAuthenticationChecks(UserDetails userDetails, UsernamePasswordAuthenticationToken authentication)
     {
         if (authentication.getCredentials() == null)
         {
@@ -55,6 +55,7 @@ public class CustomDaoAuthenticationProvider extends AbstractUserDetailsAuthenti
         }
     }
 
+    @Override
     protected void doAfterPropertiesSet() throws Exception
     {
         Assert.notNull(myUserDetailsService, "A UserDetailsService must be set");

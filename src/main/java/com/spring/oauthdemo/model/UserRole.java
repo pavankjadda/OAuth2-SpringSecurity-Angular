@@ -27,10 +27,4 @@ public class UserRole implements Serializable
 
     @Column(name = "role_id")
     private Long roleId;
-
-    public UserRole()
-    {
-    }
-
-
 }
