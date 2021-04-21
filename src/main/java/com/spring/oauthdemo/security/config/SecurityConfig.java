@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.oauth2.server.resource.OAuth2ResourceServerConfigurer;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -75,6 +76,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
                 .deleteCookies("X-Auth-Token")
                 .permitAll();
 
+        // Configure OAuth2 Resource Server
+        http.oauth2ResourceServer(OAuth2ResourceServerConfigurer::jwt);
+
+        //Disable CSRF for now
         http.csrf().disable();
     }
 

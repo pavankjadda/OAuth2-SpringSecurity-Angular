@@ -38,7 +38,7 @@ public class CustomDaoAuthenticationProvider extends AbstractUserDetailsAuthenti
         if (authentication.getCredentials() == null)
         {
             logger.debug("Authentication failed: no credentials provided");
-            throw new BadCredentialsException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Message: Authentication failed: no credentials provided"));
+            throw new BadCredentialsException(messages.getMessage("Abstract User Details Authentication Provider.badCredentials", "Message: Authentication failed: no credentials provided"));
         }
 
         String presentedPassword = authentication.getCredentials().toString();
@@ -46,7 +46,7 @@ public class CustomDaoAuthenticationProvider extends AbstractUserDetailsAuthenti
         if (presentedPassword.equals(""))
         {
             logger.debug("Authentication failed: password is empty");
-            throw new BadCredentialsException(messages.getMessage("AbstractUserDetailsAuthenticationProvider.badCredentials", "Message: Authentication failed: Password is Empty"));
+            throw new BadCredentialsException(messages.getMessage("Abstract User Details Authentication Provider.badCredentials", "Message: Authentication failed: Password is Empty"));
         }
         else if (!passwordEncoder.matches(presentedPassword, userDetails.getPassword()))
         {

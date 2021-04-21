@@ -8,16 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Map;
 
-/*
-    SessionRegistry implemented through FindByIndexNameSessionRepository
-
+/**
+ * SessionRegistry implemented through FindByIndexNameSessionRepository
  */
-
 @RestController
 @RequestMapping("/admin/registry/v2")
 public class FindByIndexNameSessionRepositoryImpl
 {
-    private FindByIndexNameSessionRepository findByIndexNameSessionRepository;
+    private final FindByIndexNameSessionRepository findByIndexNameSessionRepository;
 
     @Autowired
     public FindByIndexNameSessionRepositoryImpl(FindByIndexNameSessionRepository findByIndexNameSessionRepository)

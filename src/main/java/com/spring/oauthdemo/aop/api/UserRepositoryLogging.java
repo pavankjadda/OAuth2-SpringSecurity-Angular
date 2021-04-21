@@ -15,27 +15,27 @@ import org.springframework.stereotype.Component;
 @Component
 public class UserRepositoryLogging
 {
-    private Logger log = LoggerFactory.getLogger(UserRepositoryLogging.class);
+	private final Logger logger = LoggerFactory.getLogger(UserRepositoryLogging.class);
+
+	@Pointcut(value = "execution(* com.spring.oauthdemo.repo.UserRepository.findAll(..)) && args(pageable,..)")
+	public void getUserRepositoryFindAll(Pageable pageable)
+	{
+	}
+
+	@After(value = "getUserRepositoryFindAll(pageable)", argNames = "pageable")
+	public void findAll(Pageable pageable)
+	{
+		logger.error("Log Message: Inside UserRepositoryLogging findAll() advice");
+	}
 
 
-    @Pointcut(value = "execution(* com.spring.oauthdemo.repo.UserRepository.findAll(..)) && args(pageable,..)")
-    public void getUserRepositoryFindAll(Pageable pageable)
-    {
-    }
-
-    @After(value = "getUserRepositoryFindAll(pageable)", argNames = "pageable")
-    public void findAll(Pageable pageable)
-    {
-        log.error("Log Message: Inside UserRepositoryLogging findAll() advice");
-        log.error(pageable.toString());
-    }
-
-
-    @AfterReturning(pointcut = "execution(* com.spring.oauthdemo.repo.UserRepository.findAll(..))", returning = "returnValue")
-    public void logReturningUsers(Object returnValue)
-    {
-        Page<User> pageUsers = (Page<User>) returnValue;
+	@AfterReturning(pointcut = "execution(* com.spring.oauthdemo.repo.UserRepository.findAll(..))", returning = "returnValue")
+	public void logReturningUsers(Object returnValue)
+	{
+		Page<User> pageUsers = (Page<User>) returnValue;
         for (User user : pageUsers)
-            System.out.println("Log: " + user.toString());
-    }
+        {
+            logger.info("Log: {}", user.toString());
+        }
+	}
 }

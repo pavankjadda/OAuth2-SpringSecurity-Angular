@@ -6,7 +6,6 @@ import org.springframework.stereotype.Component;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -37,15 +36,5 @@ public class OAuth2CorsFilter implements Filter
         {
             chain.doFilter(req, res);
         }
-    }
-
-    @Override
-    public void init(FilterConfig filterConfig)
-    {
-    }
-
-    @Override
-    public void destroy()
-    {
     }
 }
