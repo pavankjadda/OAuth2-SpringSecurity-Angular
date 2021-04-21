@@ -21,7 +21,6 @@ import org.springframework.security.config.annotation.web.configurers.oauth2.ser
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.session.security.web.authentication.SpringSessionRememberMeServices;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -53,7 +52,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter
     @Override
     public void configure(HttpSecurity http) throws Exception
     {
-        http.addFilterBefore(oAuth2CorsFilter, BasicAuthenticationFilter.class);
+        //http.addFilterBefore(oAuth2CorsFilter, BasicAuthenticationFilter.class);
         http.authorizeRequests()
                 .antMatchers("/oauth/token").permitAll()
                 .antMatchers("/anonymous*").anonymous()
