@@ -1,5 +1,5 @@
 server:
-  port: 8090
+  port: 9000
   servlet:
     session:
       cookie:
@@ -33,7 +33,7 @@ spring:
     oauth2:
       resourceserver:
         jwt:
-          issuer-uri: http://localhost:8080/auth/realms/resource-server-rest-api
+          issuer-uri: http://localhost:9000
 management:
   endpoints:
     web:

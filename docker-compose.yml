@@ -1,0 +1,15 @@
+version: '3.8'
+services:
+  mysql_db_container:
+    image: mysql:latest
+    command: --default-authentication-plugin=mysql_native_password
+    environment:
+      MYSQL_DATABASE: springoauthdemo
+      MYSQL_ROOT_PASSWORD: bcmc1234
+    ports:
+      - 3306:3306
+    volumes:
+      - mysql_db_data_container:/var/lib/mysql
+
+volumes:
+  mysql_db_data_container:
