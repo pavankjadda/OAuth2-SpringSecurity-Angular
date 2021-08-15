@@ -1,0 +1,40 @@
+server:
+  port: 8090
+  servlet:
+    session:
+      cookie:
+        http-only: true
+        secure: false
+
+###################################  MySQL Database as persistent Database  ##############################
+spring:
+  application:
+    name: Spring Security OAuth Demo
+  devtools:
+    restart:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+  datasource:
+    url: jdbc:mysql://localhost:3306/springoauthdemo?serverTimezone=UTC
+    username: root
+    password: bcmc1234
+
+  session:
+    store-type: jdbc
+    jdbc:
+      table-name: SPRING_SESSION
+      initialize-schema: always
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    auditevents:
+      enabled: true

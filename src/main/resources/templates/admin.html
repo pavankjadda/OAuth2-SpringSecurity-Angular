@@ -1,0 +1,32 @@
+<html xmlns:th="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+    <title>Spring Security Example </title>
+    <!-- Bootstrap CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Bootstrap JS -->
+    <script src="js/jquery.slim.min.js"></script>
+    <script src="js/popper.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+</head>
+
+<body class="container container-fluid">
+    <h1>Welcome Home Admin</h1>
+    <div >
+        <ul  class="list-group">
+            <li class="list-group-item"><a href="/api/v2/category/list">Categories</a></li>
+            <li class="list-group-item"><a href="/admin/registry/v2/users">Users</a></li>
+            <li class="list-group-item"><a href="/admin/registry/v2/active-users">Active Users</a></li>
+            <li class="list-group-item"><a href="/admin/registry/v2/active-users">Active Sessions</a></li>
+            <li class="list-group-item"><a href="/admin/registry/v2/active-users/admin">Admin Sessions</a></li>
+            <li class="list-group-item"><a href="/admin">Home</a></li>
+        </ul>
+        <form  method="post" th:action="@{/logout}" style="margin: 10px;">
+            <button type="submit" value="Sign Out" class="btn btn-primary">Sign Out</button>
+        </form>
+    </div>
+
+
+
+</body>
+</html>
