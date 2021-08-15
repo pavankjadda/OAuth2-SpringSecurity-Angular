@@ -9,7 +9,8 @@
     <packaging>jar</packaging>
 
     <name>Spring Security OAuth Demo</name>
-    <description>Spring Security implementation with OAuth2.0, Spring Session, Spring Data and Spring Boot</description>
+    <description>Spring Security implementation with OAuth 2.0, Spring Session, Spring Data and Spring Boot
+    </description>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
